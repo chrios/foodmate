@@ -1,0 +1,134 @@
+
+
+.fm-100vh {
+	height: 100vh;
+}
+
+.fm-button {
+	margin: 10vh 2vw 0 2vw;
+	padding: 15px 30px;
+	border-radius: 0;
+}
+
+.fm-heading {
+	margin: 0;
+	padding: 20vh 0 0 0;
+}
+
+.fm-container {
+	margin-top: 30px;
+	padding: 0 20px 0 20px;
+/*	background-color: rgba(0,0,0,0.8);*/
+}
+
+div.fm-menu {
+	color: white;
+	overflow: hidden;
+	white-space: nowrap;
+	margin: auto;
+}
+
+div.fm-menu a {
+	display: inline-block;
+	text-align: center;
+	padding: 14px;
+  text-decoration: none;
+}
+
+.fm-menu-item {
+	color: white;
+
+}
+
+.fm-brand {
+
+}
+
+.fm-brand-img {
+	max-height:40px;
+	text-align: center;
+	margin: auto;
+	display: block;
+	width: 100%;
+}
+
+/* SLideout Stuff. */
+
+.toggle-button {
+	border: solid 1px grey;
+	border-radius: 2px;
+	padding: 6px;
+	margin: 16px;
+	font-size: 1.6em;
+	color: grey;
+	z-index:1000;
+	background-color: white;
+}
+
+.fm-panel {
+	background-color: white;
+}
+
+/*Popovers */
+
+.popover {
+	z-index: 1100;
+}
+
+/*Login form*/
+.form-hidden {
+	visibility: hidden;
+	opacity: 0;
+	transition: visibility 0s, opacity 0.5s linear;
+}
+
+/* This is the Desktop CSS */
+
+@media only screen and (min-width: 768px) {
+	.fm-button {
+		line-height: 0.2em;
+		padding: 2em;
+		margin-top: 20vh;
+		font-size: 1.5em;
+	}
+
+	.fm-heading {
+		line-height: 10vh;
+		padding-top: 20vh;
+		font-size: 5em;
+	}
+
+	.fm-sub-heading {
+		font-size: 1.65em;
+		line-height: 10vh;
+	}
+
+	.fm-container {
+		margin: 0;
+	}
+
+	div.fm-menu {
+		margin-right: 0;
+	}
+	div.fm-brand {
+		text-align: left;
+
+	}
+	main.slideout-panel {
+    margin-left: 25vw;
+		width: 75vw;
+		max-width: 768px;
+  }
+
+  nav.slideout-menu {
+    display: block;
+		width: 25vw;
+		max-width:256px;
+  }
+
+  i.toggle-button {
+    display: none;
+  }
+
+
+}
