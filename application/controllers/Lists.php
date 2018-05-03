@@ -1,20 +1,26 @@
 <?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 class Lists extends CI_Controller {
+  public function index()
+  {
+    if (!$this->ion_auth->logged_in())
+    {
+      redirect('auth/login');
+    }
+    //manage recipes here
+    $this->load->view('lists.php');
 
-  public function __construct() {
-    parent::__construct();
   }
 
-  public function index() {
-    $this->load->view('templates/header');
-    echo 'shopping list management';
-		$this->load->view('templates/footer');
-  }
+  public function new()
+  {
+    if (!$this->ion_auth->logged_in())
+    {
+      redirect('auth/login');
+    }
+    //add new recipe here
+    $this->load->view('lists/new');
 
-  public function new() {
-    $this->load->view('templates/header');
-    echo 'create new list';
-		$this->load->view('templates/footer');
   }
-
 }
