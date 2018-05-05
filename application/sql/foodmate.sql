@@ -231,7 +231,7 @@ CREATE TABLE `inventory` (
 DROP TABLE IF EXISTS `list`;
 CREATE TABLE `list` (
 	`id` 						int(16) unsigned NOT NULL AUTO_INCREMENT,
-  `name`          varchar(50) unsigned NOT NULL,
+  `name`          varchar(50) NOT NULL,
 	`user_id`				int(16) unsigned NOT NULL,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
