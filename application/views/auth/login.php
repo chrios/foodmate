@@ -1,5 +1,6 @@
 <?php
 $data['title'] = 'Log in | Foodmate';
+$data['active'] = '';
 $this->load->view('template/header', $data);
 ?>
 
