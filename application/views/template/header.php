@@ -15,13 +15,13 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarFoodmate">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
+      <li class="nav-item <?php if($active === 'recipes') {echo 'active';} ?>">
         <a class="nav-link" href="<?php echo base_url() . 'recipes/'?>">Recipes</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item <?php if($active === 'lists') {echo 'active';} ?>">
         <a class="nav-link" href="<?php echo base_url() . 'lists'?>">Lists</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item <?php if($active === 'inventory') {echo 'active';} ?>">
         <a class="nav-link" href="<?php echo base_url() . 'inventory'?>">Inventory</a>
       </li>
     </ul>

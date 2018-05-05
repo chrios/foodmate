@@ -1,5 +1,6 @@
 <?php
 $data['title'] = 'Edit Recipe | Foodmate';
+$data['active'] = 'recipes';
 $this->load->view('template/header', $data);
 ?>
 

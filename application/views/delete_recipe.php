@@ -1,5 +1,6 @@
 <?php
 $data['title'] = 'Delete Recipe | Foodmate';
+$data['active'] = 'recipes';
 $this->load->view('template/header', $data);
 ?>
 <h1 class="mt-5">Are you sure?</h1>
