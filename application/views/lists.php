@@ -44,9 +44,9 @@ $this->load->view('template/header', $data);
 </button>
 
 <!--
-      Create recipe modal
-      Takes in recipe name
-      POSTs to recipes/create
+      Create list modal
+      Takes in list name
+      POSTs to list/create
 -->
 <div class="modal fade" id="createListModal" tabindex="-1" role="dialog" aria-labelledby="createListModal" aria-hidden="true">
   <div class="modal-dialog" role="document">

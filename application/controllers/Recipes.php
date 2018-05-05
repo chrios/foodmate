@@ -32,6 +32,7 @@ class Recipes extends CI_Controller {
     $recipe_name = $this->input->post('recipe_name');
     if ($recipe_name !== NULL)    //if $_POST is set
     {
+      //Check if Recipe already exists
       $recipe_id = $this->recipes_model->create_recipe($recipe_name)->id; //create entry in recipe table
       redirect("recipes/edit/$recipe_id");
     }
