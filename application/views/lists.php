@@ -4,6 +4,8 @@ $data['active'] = 'lists';
 $this->load->view('template/header', $data);
 ?>
 
+
+
 <pre>
 <?php var_dump($user_lists); ?>
 </pre>
