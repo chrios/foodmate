@@ -8,6 +8,8 @@ $this->load->view('template/header', $data);
 <table class="table mt-4">
   <thead>
     <tr>
+      <th>Name</th>
+      <th class="text-right">Action</th>
     </tr>
   </thead>
   <tbody>

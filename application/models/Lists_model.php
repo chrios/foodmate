@@ -11,7 +11,7 @@ class Lists_model extends CI_Model {
 */
   public function get_user_lists($user_id)
   {
-    $query = $this->db->select('id as list_id')->where('user_id', $user_id)->from('list')->get();
+    $query = $this->db->select('id as list_id, name')->where('user_id', $user_id)->from('list')->get();
     return $query->result();
   }
 
