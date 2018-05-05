@@ -6,8 +6,6 @@ class Recipes_model extends CI_Model {
   {
     parent::__construct();
   }
-
-  /*    index()   */
 /*
 * Returns the recipes of the user currently logged in.
 */
@@ -195,14 +193,9 @@ class Recipes_model extends CI_Model {
   {
     $this->db->where('id', $step_id)->delete('step');
   }
-
-
-
-
-
-  /*
-  * Iterates through steps for a recipe and fixes the step_number to be order. Takes step.recipe_id as argument.
-  */
+/*
+* Iterates through steps for a recipe and fixes the step_number to be order. Takes step.recipe_id as argument.
+*/
   public function reorder_step($recipe_id)
   {
     //get all steps for recipe_id
@@ -225,23 +218,6 @@ class Recipes_model extends CI_Model {
       $count += 1; // increment count by 1
     }
   }
-
-
-
-  /*
-  select
-  recipe_ingredient.id as recipe_ingredient_id,
-  unit_id,
-  ingredient_id,
-  quantity,
-  short,
-  ingredient.name
-  from recipe_ingredient
-  left join unit on recipe_ingredient.unit_id = unit.id
-  left join recipe on recipe_ingredient.recipe_id = recipe.id AND recipe.id = 1
-  left join ingredient on recipe_ingredient.ingredient_id = ingredient.id;
-
-  */
 
   /*    delete()    */
 /*
