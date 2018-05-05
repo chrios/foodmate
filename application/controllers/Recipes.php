@@ -43,8 +43,8 @@ class Recipes extends CI_Controller {
   }
 /*
 * http://base_url/recipes/view/$recipe_id
-* Edit recipe. Takes one argument, recipe.id
-* POST to here to edit a recipe
+* View recipe. Takes one argument, recipe.id
+*
 */
   public function view($recipe_id)
   {
@@ -53,10 +53,16 @@ class Recipes extends CI_Controller {
     {
       redirect('recipes');
     }
-    $data['recipe_ingredients'] = $this->recipes_model->get_recipe_ingredients($recipe_id);
-    $data['steps'] = $this->recipes_model->get_recipe_steps($recipe_id);
-    $data['recipe_name'] = $this->recipes_model->get_recipe_name($recipe_id)->recipe_name;
-    $this->load->view('view_recipe', $data);
+    //check if recipe belongs to current user
+    $curnt_userid = $this->ion_auth->user()->row()->id;
+    $recipe_userid = $this->recipes_model->check_recipe_owner($recipe_id);
+    if ($recipe_userid[0]->user_id === $curnt_userid)
+    {
+      $data['recipe_ingredients'] = $this->recipes_model->get_recipe_ingredients($recipe_id);
+      $data['steps'] = $this->recipes_model->get_recipe_steps($recipe_id);
+      $data['recipe_name'] = $this->recipes_model->get_recipe_name($recipe_id)->recipe_name;
+      $this->load->view('view_recipe', $data);
+    }
   }
 /*
 * http://base_url/recipes/edit/$recipe_id
@@ -154,14 +160,20 @@ class Recipes extends CI_Controller {
     //
     else
     {
-      $data['recipe_ingredients'] = $this->recipes_model->get_recipe_ingredients($recipe_id);
-      $data['steps'] = $this->recipes_model->get_recipe_steps($recipe_id);
-      $data['recipe_id'] = $recipe_id;
-      $data['units'] = $this->recipes_model->get_units();
-      $data['ingredients'] = $this->recipes_model->get_ingredients();
-      $data['recipe_name'] = $this->recipes_model->get_recipe_name($recipe_id)->recipe_name;
-      //$data['ingredients'] =
-      $this->load->view('edit_recipe', $data);
+      //check if recipe belongs to current user
+      $curnt_userid = $this->ion_auth->user()->row()->id;
+      $recipe_userid = $this->recipes_model->check_recipe_owner($recipe_id);
+      if ($recipe_userid[0]->user_id === $curnt_userid)
+      {
+        $data['recipe_ingredients'] = $this->recipes_model->get_recipe_ingredients($recipe_id);
+        $data['steps'] = $this->recipes_model->get_recipe_steps($recipe_id);
+        $data['recipe_id'] = $recipe_id;
+        $data['units'] = $this->recipes_model->get_units();
+        $data['ingredients'] = $this->recipes_model->get_ingredients();
+        $data['recipe_name'] = $this->recipes_model->get_recipe_name($recipe_id)->recipe_name;
+        //$data['ingredients'] =
+        $this->load->view('edit_recipe', $data);
+      }
     }
   }
 /*
