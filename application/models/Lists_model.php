@@ -34,7 +34,15 @@ class Lists_model extends CI_Model {
     //Return new list ID)
     return $query->row();
   }
-
-
-
+  /*    view()    */
+/*
+* Gets recipes referenced in a list. Returns array of recipe.id
+*/
+  public function get_list_recipes($list_id)
+  {
+    //get recipe id's
+    $query = $this->db->select('recipe_id')->where('id', $list_id)->get('list_recipe');
+    //return query
+    return $query->result();
+  }
 }

@@ -240,13 +240,10 @@ CREATE TABLE `list` (
   --  LIST INGREDIENTS TABLE
   --
 
-DROP TABLE IF EXISTS `list_ingredient`;
-CREATE TABLE `list_ingredient` (
+DROP TABLE IF EXISTS `list_recipe`;
+CREATE TABLE `list_recipe` (
 	`id` 						int(16) unsigned NOT NULL AUTO_INCREMENT,
-	`quantity`			int(16) unsigned NOT NULL,
-	`unit_id`				int(16) unsigned NOT NULL,
-	`list_id`				int(16) unsigned NOT NULL,
-	`ingredient_id`	int(16) unsigned NOT NULL,
+	`recipe_id`				int(16) unsigned NOT NULL,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -273,10 +270,8 @@ ADD CONSTRAINT `fk_inventory_ingredient_inventory1` FOREIGN KEY (`ingredient_id`
 ALTER TABLE `list`
 ADD CONSTRAINT `fk_list_user_list1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
-ALTER TABLE `list_ingredient`
-ADD CONSTRAINT `fk_list_ingredient_unit_list1` FOREIGN KEY (`unit_id`) REFERENCES `unit` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-ADD CONSTRAINT `fk_list_ingredient_list_list1` FOREIGN KEY (`list_id`) REFERENCES `list` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-ADD CONSTRAINT `fk_list_ingredient_ingredient_list1` FOREIGN KEY (`ingredient_id`) REFERENCES `ingredient` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+ALTER TABLE `list_recipe`
+ADD CONSTRAINT `fk_list_recipe_recipe_list1` FOREIGN KEY (`recipe_id`) REFERENCES `recipe` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
   --
   -- Add indexes to tables
@@ -301,10 +296,8 @@ ADD KEY `fk_inventory_ingredient_inventory1_idx` (`ingredient_id`);
 ALTER TABLE `list`
 ADD KEY `fk_list_user_list1_idx` (`user_id`);
 
-ALTER TABLE `list_ingredient`
-ADD KEY `fk_list_ingredient_unit_list1_idx` (`unit_id`),
-ADD KEY `fk_list_ingredient_list_list1_idx` (`list_id`),
-ADD KEY `fk_list_ingredient_ingredient_list1_idx` (`ingredient_id`);
+ALTER TABLE `list_recipe`
+ADD KEY `fk_list_recipe_recipe_list1_idx` (`recipe_id`);
 
   --
   -- CodeIgniter Sessions table

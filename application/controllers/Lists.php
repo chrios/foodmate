@@ -56,16 +56,34 @@ class Lists extends CI_Controller {
 */
   public function view($list_id)
   {
+    $this->load->model('recipes_model');
     //Get id of currently logged in user
     $curnt_userid = $this->ion_auth->user()->row()->id;
     //Check if list belongs to current user
     //
     //Redirect if argument is null
-    if($recipe_id === NULL)
+    if($list_id === NULL)
     {
       redirect('recipes');
     }
-    //Check if list belongs to user
+    //check if list belongs to current user
+    //
+    //Get recipe.id 's of list
+    $data['list_recipe'] = $this->lists_model->get_list_recipes($list_id);
+
+    //Get recipe names
+    //Get recipe ingredients
+    $data['list_recipe_names'] = array();
+    $data['list_recipe_ingredient'] = array();
+    foreach($data['list_recipe'] as $recipe)
+    {
+      $data['list_recipe_names'] = $this->recipes_model->get_recipe_name($recipe->recipe_id);
+      $data['list_recipe_ingredient'] = $this->recipes_model->get_recipe_ingredients($recipe->recipe_id);
+    }
+
+    //Get recipe
+
+    $this->load->view('view_list', $data);
   }
 
 
