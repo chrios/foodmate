@@ -1,5 +1,6 @@
 <?php
-$data['title'] = 'Edit group | Foodmate';
+$data['title'] = 'Edit Group | Foodmate';
+$data['active'] = 'users';
 $this->load->view('template/header', $data);
 ?>
 <h1><?php echo lang('edit_group_heading');?></h1>

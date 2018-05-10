@@ -4,7 +4,10 @@ $data['active'] = 'recipes';
 $this->load->view('template/header', $data);
 ?>
 
+
+
 <h1 class="mt-5 text-center"><?php echo $recipe_name ?></h1>
+
 <div class="row">
   <div class="col-sm-4">
     <h2 class="mt-3 mb-3 text-center">Ingredients</h2>

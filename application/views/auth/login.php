@@ -3,32 +3,37 @@ $data['title'] = 'Log in | Foodmate';
 $data['active'] = '';
 $this->load->view('template/header', $data);
 ?>
-
-<h1><?php echo lang('login_heading');?></h1>
-<p><?php echo lang('login_subheading');?></p>
-
+<div class="text-center">
+<h1 class="mt-5 display-1 d-none d-md-block">Welcome to Foodmate.</h1>
+<h1 class="mt-5 display-1 d-none d-sm-block d-md-none">Welcome.</h1>
+<h1 class="mt-5 display-3 d-sm-none">Welcome.</h1>
+<!--<h2 class="mt-5 display-4">Please login below.</h2>-->
 
 <?php echo form_open("auth/login");?>
+<div class="row">
+  <div class="col-md-3">
+  </div>
+  <div class="col-md-6">
+<div class="form-group mt-5 mw-100">
+  <?php echo form_input($identity, '', 'class="form-control" placeholder="Enter your email address..." type="email"');?>
+  <?php echo form_input($password, '', 'class="form-control mt-3" placeholder="Enter your password..." type="password"');?>
+</div>
 
-  <p>
-    <?php echo lang('login_identity_label', 'identity');?>
-    <?php echo form_input($identity);?>
-  </p>
-
-  <p>
-    <?php echo lang('login_password_label', 'password');?>
-    <?php echo form_input($password);?>
-  </p>
-
-  <p>
-    <?php echo lang('login_remember_label', 'remember');?>
-    <?php echo form_checkbox('remember', '1', FALSE, 'id="remember"');?>
-  </p>
+<div class="form-check">
+  <label class="form-check-label">Remember me?</label>
+  <?php echo form_checkbox('remember', '1', FALSE, 'id="remember"', 'class="form-check-input mt-3"');?>
+</div>
 
 
-  <p><?php echo form_submit('submit', lang('login_submit_btn'));?></p>
+<p><?php echo form_submit('submit', 'Login', 'class="btn btn-success mt-3"');?></p>
 
 <?php echo form_close();?>
 
-<p><a href="forgot_password"><?php echo lang('login_forgot_password');?></a></p>
+<p>
+  <a href="forgot_password">Forgot your password?</a>
+</p>
+
+</div>
+</div>
+
 <?php $this->load->view('template/footer'); ?>

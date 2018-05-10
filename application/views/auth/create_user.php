@@ -1,5 +1,6 @@
 <?php
-$data['title'] = 'Create user | Foodmate';
+$data['title'] = 'Create new User | Foodmate';
+$data['active'] = 'admin';
 $this->load->view('template/header', $data);
 ?>
 <h1><?php echo lang('create_user_heading');?></h1>

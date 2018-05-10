@@ -1,5 +1,6 @@
 <?php
-$data['title'] = 'Edit user | Foodmate';
+$data['title'] = 'Edit User | Foodmate';
+$data['active'] = 'users';
 $this->load->view('template/header', $data);
 ?>
 <h1><?php echo lang('edit_user_heading');?></h1>

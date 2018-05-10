@@ -1,5 +1,6 @@
 <?php
-$data['title'] = 'Reset password | Foodmate';
+$data['title'] = 'Reset Password | Foodmate';
+$data['active'] = 'admin';
 $this->load->view('template/header', $data);
 ?>
 <h1><?php echo lang('reset_password_heading');?></h1>

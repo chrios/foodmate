@@ -1,5 +1,6 @@
 <?php
 $data['title'] = 'Change Password | Foodmate';
+$data['active'] = 'admin';
 $this->load->view('template/header', $data);
 ?>
 <h1><?php echo lang('change_password_heading');?></h1>

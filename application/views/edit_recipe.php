@@ -111,6 +111,7 @@ $("#cancelIngredient").on("click", function(){
 	$("#addIngredientRow").toggle();
   $("#addIngredientButton").toggle();
 });
+
 $("#addIngredientButton").on("click", function(){
 	$("#addIngredientRow").toggle();
   $("#addIngredientButton").toggle();

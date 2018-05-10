@@ -1,5 +1,6 @@
 <?php
-$data['title'] = 'Deactivate user | Foodmate';
+$data['title'] = 'Deactivate User | Foodmate';
+$data['active'] = 'admin';
 $this->load->view('template/header', $data);
 ?>
 <h1><?php echo lang('deactivate_heading');?></h1>

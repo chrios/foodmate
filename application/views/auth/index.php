@@ -1,13 +1,13 @@
 <?php
-$data['title'] = 'Log in | Foodmate';
+$data['title'] = 'User Management | Foodmate';
+$data['active'] = 'admin';
 $this->load->view('template/header', $data);
 ?>
-<h1><?php echo lang('index_heading');?></h1>
-<p><?php echo lang('index_subheading');?></p>
+<h1 class="mt-5">Users</h1>
 
 <div id="infoMessage"><?php echo $message;?></div>
 
-<table cellpadding=0 cellspacing=10>
+<table class="table mt-4">
 	<tr>
 		<th><?php echo lang('index_fname_th');?></th>
 		<th><?php echo lang('index_lname_th');?></th>
