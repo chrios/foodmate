@@ -32,14 +32,24 @@ You need to load some configuration varialbes into the $db['default'] array in t
 ### Application Configuration
 
 Modify the application/config/config.php file, at minimum, setting the following:
-- $config['base_url']
+```
+$config['base_url']
+```
 
 If using a reverse proxy, set the following option in application/config/config.php:
-- $config['proxy_ips']
+```
+$config['proxy_ips']
+```
 
 Lastly, modify the options in the application/config/ion_auth.
-- $config['site_title']  
-- $config['admin_email']
+```
+$config['site_title']  
+$config['admin_email']
+```
+
+## Deployment
+
+Foodmate is tested with nginx and there is a sample configuration file in the base directory, foodmate.conf.
 
 ## TODO
 
