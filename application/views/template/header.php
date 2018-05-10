@@ -23,17 +23,17 @@
      echo '">'.
         '<a class="nav-link" href="'. base_url() . 'auth/">Admin</a>'.
         '</li>';
-    } 
+    }
     ?>
       <li class="nav-item <?php if($active === 'recipes') {echo ' active';} ?>">
         <a class="nav-link" href="<?php echo base_url() . 'recipes/'?>">Recipes</a>
       </li>
       <li class="nav-item <?php if($active === 'lists') {echo ' active';} ?>">
-        <a class="nav-link" href="<?php echo base_url() . 'lists'?>">Lists</a>
+        <a class="nav-link" href="<?php echo base_url() . 'lists'?>">Shopping Lists</a>
       </li>
-      <li class="nav-item <?php if($active === 'inventory') {echo ' active';} ?>">
+      <!--<li class="nav-item <?php if($active === 'inventory') {echo ' active';} ?>">
         <a class="nav-link" href="<?php echo base_url() . 'inventory'?>">Inventory</a>
-      </li>
+      </li>-->
     </ul>
 <!--Login/logout buttons-->
 <?php
