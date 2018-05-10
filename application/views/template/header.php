@@ -23,7 +23,8 @@
      echo '">'.
         '<a class="nav-link" href="'. base_url() . 'auth/">Admin</a>'.
         '</li>';
-    } ?>
+    } 
+    ?>
       <li class="nav-item <?php if($active === 'recipes') {echo ' active';} ?>">
         <a class="nav-link" href="<?php echo base_url() . 'recipes/'?>">Recipes</a>
       </li>

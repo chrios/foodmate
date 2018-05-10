@@ -3,7 +3,7 @@ $data['title'] = 'Create new Group | Foodmate';
 $data['active'] = 'admin';
 $this->load->view('template/header', $data);
 ?>
-<h1><?php echo lang('create_group_heading');?></h1>
+<h1 class="mt-5"><?php echo lang('create_group_heading');?></h1>
 <p><?php echo lang('create_group_subheading');?></p>
 
 <div id="infoMessage"><?php echo $message;?></div>

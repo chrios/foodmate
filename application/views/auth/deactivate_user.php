@@ -3,7 +3,7 @@ $data['title'] = 'Deactivate User | Foodmate';
 $data['active'] = 'admin';
 $this->load->view('template/header', $data);
 ?>
-<h1><?php echo lang('deactivate_heading');?></h1>
+<h1 class="mt-5"><?php echo lang('deactivate_heading');?></h1>
 <p><?php echo sprintf(lang('deactivate_subheading'), $user->username);?></p>
 
 <?php echo form_open("auth/deactivate/".$user->id);?>

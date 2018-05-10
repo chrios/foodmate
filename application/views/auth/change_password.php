@@ -3,7 +3,7 @@ $data['title'] = 'Change Password | Foodmate';
 $data['active'] = 'admin';
 $this->load->view('template/header', $data);
 ?>
-<h1><?php echo lang('change_password_heading');?></h1>
+<h1 class="mt-5"><?php echo lang('change_password_heading');?></h1>
 
 <div id="infoMessage"><?php echo $message;?></div>
 
