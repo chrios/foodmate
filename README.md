@@ -4,6 +4,8 @@ Foodmate is a multi user recipe management system developed by TeamFoodmate, at 
 
 You can use Foodmate to export shopping lists from your selected recipes to print out or access on your phone at any time, dynamically adding or removing recipes to the list.
 
+Foodmate is written in PHP using the CodeIgniter framework. It has been designed with Nginx+PHP-FPM and MariaDB in mind, but other databases/webservers should work due to CodeIgniter's database agnostic helper functions.
+
 ## Setup
 
 ### Database
