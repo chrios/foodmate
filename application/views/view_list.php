@@ -17,13 +17,13 @@ $this->load->view('template/header', $data);
 ?>
 
 
-
+<!--
 <pre>
   <?php
   //print_r($list_recipes);
   //print_r($list_ingredients);
   ?>
 </pre>
-
+-->
 
 <?php $this->load->view('template/footer'); ?>

@@ -61,10 +61,6 @@ class Lists extends CI_Controller {
     {
       redirect('lists');
     }
-
-    //echo '<pre>';
-
-
     //load Recipes_model (we need some functions from there)
     $this->load->model('recipes_model');
     //check if list belongs to current user
@@ -76,6 +72,7 @@ class Lists extends CI_Controller {
       $data['list_name'] = $this->lists_model->get_list_name($list_id)->name;
       //get all recipes in list
       $data['list_recipes'] = $this->lists_model->get_list_recipe_ids($list_id);
+      //print_r($data['list_recipes']);
       //get all ingredients for recipes in list
       $list_ingredients = array();
       foreach ($data['list_recipes'] as $list_recipe)
@@ -168,5 +165,33 @@ class Lists extends CI_Controller {
       }
     }
   }
-
+/*
+* http://base_url/lists/delete/$list_id
+* Delete list. Takes one argument, list.id
+* POST to here to delete a recipe from a list
+*/
+  public function delete($list_id)
+  {
+    //
+    //DELETE LIST
+    //
+    //Get $_POST variables for adding new recipe
+    $list_id = $this->input->post('deleteList');
+    //if $_POST is set
+    if ($list_id !== NULL)
+    {
+      //check if list belongs to current user
+      $curnt_userid = $this->ion_auth->user()->row()->id;
+      $list_userid = $this->lists_model->get_list_owner($list_id);
+      if ($list_userid->user_id === $curnt_userid)
+      {
+        $this->lists_model->delete_list($list_id);
+        redirect('lists');
+      }
+    }
+    else
+    {
+        redirect('lists');
+    }
+  }
 }

@@ -40,7 +40,7 @@ class Lists_model extends CI_Model {
 */
   public function get_list_recipe_ids($list_id)
   {
-    $query = $this->db->select('recipe_id')->from('list_recipe')->get();
+    $query = $this->db->select('recipe_id')->from('list_recipe')->where('list_id', $list_id)->get();
     return $query->result();
   }
 
@@ -110,6 +110,15 @@ class Lists_model extends CI_Model {
   {
     //remove recipe from list
     $this->db->delete('list_recipe', array('id' => $list_recipe_id));
+    return 0;
+  }
+  /*    delete()    */
+/*
+* Deletes a list
+*/
+  public function delete_list($list_id)
+  {
+    $this->db->delete('list', array('id' => $list_id));
     return 0;
   }
 }

@@ -17,6 +17,8 @@ $this->load->view('template/header', $data);
 <?php
   foreach($user_lists as $list)
   {
+    $list_id = $list->list_id;
+    $hidden = array('deleteList' => $list_id);
     echo  '<tr>'.
             '<td class="align-middle">'.
             '<a href="'.base_url().'lists/view/'.$list->list_id.'">'.
@@ -24,14 +26,16 @@ $this->load->view('template/header', $data);
             '</a>'.
             '</td>'.
             '<td class="text-right">'.
+              form_open("lists/delete/$list->list_id", 'style="margin:0"', $hidden).
               '<div class="btn-group btn-group" role="group">'.
                 '<a class="btn btn-warning" href="'.base_url().'lists/edit/'.$list->list_id.'">'.
                   'Edit'.
                 '</a>'.
-                '<a class="btn btn-danger" href="'.base_url().'lists/delete/'.$list->list_id.'">'.
+                '<button class="btn btn-danger">'.
                   'Delete'.
-                '</a>'.
+                '</button>'.
               '</div>'.
+              form_close().
             '</td>'.
           '</tr>';
   }
