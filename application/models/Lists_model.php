@@ -40,9 +40,69 @@ class Lists_model extends CI_Model {
 */
   public function get_list_recipes($list_id)
   {
-    //get recipe id's
-    $query = $this->db->select('recipe_id')->where('id', $list_id)->get('list_recipe');
-    //return query
+    $query = $this->db->select('list_recipe.id, list_id, recipe_id, name, global_flag, user_id')->from('list_recipe')->join('recipe', "list_recipe.recipe_id = recipe.id and list_recipe.list_id = $list_id")->get();
     return $query->result();
+
+  }
+
+  /*    edit()    */
+/*
+* Gets user id of list
+*/
+  public function get_list_owner($list_id)
+  {
+    //get list user id
+    $query = $this->db->select('user_id')->where('id', $list_id)->get('list');
+    // return $user_id
+    return $query->row();
+  }
+/*
+* Gets list name from list_id
+*/
+  public function get_list_name($list_id)
+  {
+    //get list name
+    $query = $this->db->select('name')->where('id', $list_id)->get('list');
+    // return list.name
+    return $query->row();
+  }
+/*
+* Gets all recipe names that are global or belong to current user
+*/
+  public function get_global_and_user_recipes()
+  {
+    //Get id of currently logged in user
+    $curnt_userid = $this->ion_auth->user()->row()->id;
+    //get recipes that are global/belong to user
+    $where = "user_id = $curnt_userid OR global_flag = 1";
+    $query = $this->db->select('name')->where($where)->get('recipe');
+    return $query->result();
+  }
+/*
+* Adds recipe to list from recipe.name and list.id
+*/
+  public function add_recipe_to_list($recipe_name, $list_id)
+  {
+    //get recipe id from name
+    $query = $this->db->select('id')->from('recipe')->where('name', $recipe_name)->get();
+    $recipe_id = $query->row()->id;
+
+    //prepare insert
+    $data = array(
+      'list_id' => $list_id,
+      'recipe_id' => $recipe_id
+    );
+    //insert new row into list_recipe
+    $this->db->insert('list_recipe', $data);
+    return 0;
+  }
+/*
+* remove a recipe from list from its list_recipe.id
+*/
+  public function remove_recipe_from_list($list_recipe_id)
+  {
+    //remove recipe from list
+    $this->db->delete('list_recipe', array('id' => $list_recipe_id));
+    return 0;
   }
 }

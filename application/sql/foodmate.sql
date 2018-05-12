@@ -243,7 +243,8 @@ CREATE TABLE `list` (
 DROP TABLE IF EXISTS `list_recipe`;
 CREATE TABLE `list_recipe` (
 	`id` 						int(16) unsigned NOT NULL AUTO_INCREMENT,
-	`recipe_id`				int(16) unsigned NOT NULL,
+	`list_id`				int(16) unsigned NOT NULL,
+	`recipe_id`			int(16) unsigned NOT NULL,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -271,6 +272,7 @@ ALTER TABLE `list`
 ADD CONSTRAINT `fk_list_user_list1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 ALTER TABLE `list_recipe`
+ADD CONSTRAINT `fk_list_recipe_list_list1` FOREIGN KEY (`list_id`) REFERENCES `list` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
 ADD CONSTRAINT `fk_list_recipe_recipe_list1` FOREIGN KEY (`recipe_id`) REFERENCES `recipe` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
   --
@@ -297,6 +299,7 @@ ALTER TABLE `list`
 ADD KEY `fk_list_user_list1_idx` (`user_id`);
 
 ALTER TABLE `list_recipe`
+ADD KEY `fk_list_recipe_list_list1_idx` (`list_id`),
 ADD KEY `fk_list_recipe_recipe_list1_idx` (`recipe_id`);
 
   --

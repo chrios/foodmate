@@ -64,7 +64,7 @@ class Lists extends CI_Controller {
     //Redirect if argument is null
     if($list_id === NULL)
     {
-      redirect('recipes');
+      redirect('lists');
     }
     //check if list belongs to current user
     //
@@ -85,6 +85,90 @@ class Lists extends CI_Controller {
 
     $this->load->view('view_list', $data);
   }
+/*
+* http://base_url/lists/edit/$list_id
+* Edit recipe. Takes one argument, recipe.id
+* POST to here to edit a recipe
+*/
+  public function edit($list_id = NULL)
+  {
+    //Redirect if argument is null
+    if($list_id === NULL)
+    {
+      redirect('lists');
+    }
+    //
+    //ADD NEW RECIPE TO LIST
+    //
+    //Get $_POST variables for adding new recipe
+    $add_recipe = $this->input->post('addRecipe');
+    //if $_POST is set
+    if ($add_recipe !== NULL)
+    {
+      //check if list belongs to current user
+      $curnt_userid = $this->ion_auth->user()->row()->id;
+      $list_userid = $this->lists_model->get_list_owner($list_id);
+      if ($list_userid->user_id === $curnt_userid)
+      {
+        //insert recipe into list
+        $this->lists_model->add_recipe_to_list($add_recipe, $list_id);
+        //redirect to edit list
+        redirect("lists/edit/$list_id");
+      }
+    }
+    //
+    // REMOVE RECIPE FROM LIST
+    //
+    //Get $_POST variables for removing recipe
+    $remove_recipe = $this->input->post('delete_recipe_from_list');
 
+    if ($remove_recipe !== NULL)
+    {
+      //check if list belongs to current user
+      $curnt_userid = $this->ion_auth->user()->row()->id;
+      $list_userid = $this->lists_model->get_list_owner($list_id);
+      if ($list_userid->user_id === $curnt_userid)
+      {
+        //remove recipe from list
+        $this->lists_model->remove_recipe_from_list($remove_recipe);
+        //redirect to edit list
+        redirect("lists/edit/$list_id");
+      }
+    }
+    else
+    {
+      //check if list belongs to current user
+      $curnt_userid = $this->ion_auth->user()->row()->id;
+      $list_userid = $this->lists_model->get_list_owner($list_id);
+      if ($list_userid->user_id === $curnt_userid)
+      {
+        $data['list_recipes'] = $this->lists_model->get_list_recipes($list_id);
+        $data['list_name'] = $this->lists_model->get_list_name($list_id)->name;
+        $data['list_id'] = $list_id;
+        $data['all_recipes'] = $this->lists_model->get_global_and_user_recipes();
+        /*
+        $data['recipe_ingredients'] = $this->recipes_model->get_recipe_ingredients($recipe_id);
+        $data['steps'] = $this->recipes_model->get_recipe_steps($recipe_id);
+        $data['recipe_id'] = $recipe_id;
+        $data['units'] = $this->recipes_model->get_units();
+        $data['ingredients'] = $this->recipes_model->get_ingredients();
+        $data['recipe_name'] = $this->recipes_model->get_recipe_name($recipe_id)->recipe_name;
+        //$data['ingredients'] =
+        $this->load->view('edit_recipe', $data);
+        */
+
+
+        //get all recipes in list
+
+        //get all ingredients for recipes in list
+
+        //add all like ingredients to each other
+
+        //push through array of compiled ingredients to $data
+
+        $this->load->view('edit_list', $data);
+      }
+    }
+  }
 
 }
