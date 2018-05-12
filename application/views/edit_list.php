@@ -79,14 +79,14 @@ allow user to create more recipe_ingredients in the recipe
 
  </script>
 
-
+<!--
 <pre>
   <?php
-  print_r($list_recipes);
+  //print_r($list_recipes);
   //print_r($list_name);
   //print_r($all_recipes);
   ?>
 </pre>
-
+-->
 
 <?php $this->load->view('template/footer'); ?>

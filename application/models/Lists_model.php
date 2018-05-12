@@ -36,16 +36,23 @@ class Lists_model extends CI_Model {
   }
   /*    view()    */
 /*
-* Gets recipes referenced in a list. Returns array of recipe.id
+* Gets recipe.id's referenced in a list. Returns array of recipe.id
+*/
+  public function get_list_recipe_ids($list_id)
+  {
+    $query = $this->db->select('recipe_id')->from('list_recipe')->get();
+    return $query->result();
+  }
+
+  /*    edit()    */
+/*
+* Gets recipes referenced in a list.
 */
   public function get_list_recipes($list_id)
   {
     $query = $this->db->select('list_recipe.id, list_id, recipe_id, name, global_flag, user_id')->from('list_recipe')->join('recipe', "list_recipe.recipe_id = recipe.id and list_recipe.list_id = $list_id")->get();
     return $query->result();
-
   }
-
-  /*    edit()    */
 /*
 * Gets user id of list
 */

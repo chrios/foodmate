@@ -56,34 +56,52 @@ class Lists extends CI_Controller {
 */
   public function view($list_id)
   {
-    $this->load->model('recipes_model');
-    //Get id of currently logged in user
-    $curnt_userid = $this->ion_auth->user()->row()->id;
-    //Check if list belongs to current user
-    //
     //Redirect if argument is null
     if($list_id === NULL)
     {
       redirect('lists');
     }
+
+    //echo '<pre>';
+
+
+    //load Recipes_model (we need some functions from there)
+    $this->load->model('recipes_model');
     //check if list belongs to current user
-    //
-    //Get recipe.id 's of list
-    $data['list_recipe'] = $this->lists_model->get_list_recipes($list_id);
-
-    //Get recipe names
-    //Get recipe ingredients
-    $data['list_recipe_names'] = array();
-    $data['list_recipe_ingredient'] = array();
-    foreach($data['list_recipe'] as $recipe)
+    $curnt_userid = $this->ion_auth->user()->row()->id;
+    $list_userid = $this->lists_model->get_list_owner($list_id);
+    if ($list_userid->user_id === $curnt_userid)
     {
-      $data['list_recipe_names'] = $this->recipes_model->get_recipe_name($recipe->recipe_id);
-      $data['list_recipe_ingredient'] = $this->recipes_model->get_recipe_ingredients($recipe->recipe_id);
+      //get list name
+      $data['list_name'] = $this->lists_model->get_list_name($list_id)->name;
+      //get all recipes in list
+      $data['list_recipes'] = $this->lists_model->get_list_recipe_ids($list_id);
+      //get all ingredients for recipes in list
+      $list_ingredients = array();
+      foreach ($data['list_recipes'] as $list_recipe)
+      {
+        $list_ingredients[] = $this->recipes_model->get_recipe_ingredients($list_recipe->recipe_id);
+        //print_r($list_ingredients);
+
+      }
+      //pull all ingredient objects out into same array level
+      $ingredients = array();
+      foreach($list_ingredients as $recipe)
+      {
+        foreach($recipe as $recipe_ingredient)
+        {
+          $ingredients[] = $recipe_ingredient;
+        }
+      }
+      //sort ingredients by name
+      usort($ingredients, function($a, $b) {
+        return strcmp($a->name, $b->name);
+      });
+      //get ingredients in list
+      $data['list_ingredients'] = $ingredients;
+      //push through array of compiled ingredients to $data
+      $this->load->view('view_list', $data);
     }
-
-    //Get recipe
-
-    $this->load->view('view_list', $data);
   }
 /*
 * http://base_url/lists/edit/$list_id
@@ -146,26 +164,6 @@ class Lists extends CI_Controller {
         $data['list_name'] = $this->lists_model->get_list_name($list_id)->name;
         $data['list_id'] = $list_id;
         $data['all_recipes'] = $this->lists_model->get_global_and_user_recipes();
-        /*
-        $data['recipe_ingredients'] = $this->recipes_model->get_recipe_ingredients($recipe_id);
-        $data['steps'] = $this->recipes_model->get_recipe_steps($recipe_id);
-        $data['recipe_id'] = $recipe_id;
-        $data['units'] = $this->recipes_model->get_units();
-        $data['ingredients'] = $this->recipes_model->get_ingredients();
-        $data['recipe_name'] = $this->recipes_model->get_recipe_name($recipe_id)->recipe_name;
-        //$data['ingredients'] =
-        $this->load->view('edit_recipe', $data);
-        */
-
-
-        //get all recipes in list
-
-        //get all ingredients for recipes in list
-
-        //add all like ingredients to each other
-
-        //push through array of compiled ingredients to $data
-
         $this->load->view('edit_list', $data);
       }
     }
