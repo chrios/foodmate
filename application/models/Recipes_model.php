@@ -7,14 +7,14 @@ class Recipes_model extends CI_Model {
     parent::__construct();
   }
 /*
-* Returns the recipes of the user currently logged in.
+* Returns the recipes of the user currently logged in and global recipes.
 */
   public function get_recipes()
   {
     //Get id of currently logged in user
     $curnt_userid = $this->ion_auth->user()->row()->id;
-    $this->db->select('name, user_id, id');
-    $this->db->where('user_id', $curnt_userid);
+    $this->db->select('name, user_id, id, global_flag');
+    $this->db->where("user_id = $curnt_userid OR global_flag = 1");
     $query = $this->db->get('recipe');
     //Return array of results from query
     return $query->result_array();
@@ -254,4 +254,28 @@ class Recipes_model extends CI_Model {
     //Return array of results from query
     return $query->result_array();
   }
+
+  /*    share()    */
+/*
+* shares a recipe (makes global)
+*/
+  public function share_recipe($recipe_id)
+  {
+    $data = array(
+      'global_flag' => 1
+    );
+    $this->db->where('id', $recipe_id);
+    $this->db->update('recipe', $data);
+  }
+/*
+* unshares a recipe
+*/
+    public function unshare_recipe($recipe_id)
+    {
+      $data = array(
+        'global_flag' => 0
+      );
+      $this->db->where('id', $recipe_id);
+      $this->db->update('recipe', $data);
+    }
 }

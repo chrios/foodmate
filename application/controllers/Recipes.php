@@ -42,6 +42,35 @@ class Recipes extends CI_Controller {
     }
   }
 /*
+* http://base_url/recipes/share/$recipe_id
+* POST here to share a recipe.
+*
+*/
+  public function share($recipe_id)
+  {
+    $action = $this->input->post('action');
+    //check if recipe belongs to current user
+    $curnt_userid = $this->ion_auth->user()->row()->id;
+    $recipe_userid = $this->recipes_model->check_recipe_owner($recipe_id);
+    if ($recipe_userid[0]->user_id === $curnt_userid)
+    {
+      if ($action === 'share')    //if $_POST is set to share
+      {
+        $this->recipes_model->share_recipe($recipe_id);
+        redirect("recipes");
+      }
+      else if ($action === 'unshare')
+      {
+        $this->recipes_model->unshare_recipe($recipe_id);
+        redirect("recipes");
+      }
+    }
+    else
+    {
+      redirect("recipes"); //else redirect to view all recipes
+    }
+  }
+/*
 * http://base_url/recipes/view/$recipe_id
 * View recipe. Takes one argument, recipe.id
 *

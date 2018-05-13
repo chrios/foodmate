@@ -22,17 +22,42 @@ $this->load->view('template/header', $data);
               $recipe['name'].
             '</a>'.
             '</td>'.
-            '<td class="text-right">'.
-              '<div class="btn-group btn-group" role="group">'.
-                '<a class="btn btn-warning" href="'.base_url().'recipes/edit/'.$recipe['id'].'">'.
-                  'Edit'.
-                '</a>'.
-                '<a class="btn btn-danger" href="'.base_url().'recipes/delete/'.$recipe['id'].'">'.
-                  'Delete'.
-                '</a>'.
-              '</div>'.
-            '</td>'.
-          '</tr>';
+            '<td class="text-right">';
+
+
+    //if recipe belong to user, show buttons
+    if ($recipe['user_id'] === $this->ion_auth->user()->row()->id)
+    {
+      //create path for POST to share/unshare recipe
+      $share_recipe = 'recipes/share/'.$recipe['id'];
+      if ($recipe['global_flag'] == 1)
+      {
+        echo form_open($share_recipe, 'class="mb-0"', array("action" => "unshare"));
+        echo        '<button class="btn btn-secondary" href="'.base_url().'recipes/share/'.$recipe['id'].'">'.
+                      'Unshare'.
+                    '</button>';
+      }
+      else if ($recipe['global_flag'] == 0)
+      {
+        echo form_open($share_recipe, 'class="mb-0"', array("action" => "share"));
+        echo        '<button class="btn btn-primary" href="'.base_url().'recipes/share/'.$recipe['id'].'">'.
+                      'Share'.
+                    '</button>';
+      }
+      echo        '<a class="btn btn-warning ml-1" href="'.base_url().'recipes/edit/'.$recipe['id'].'">'.
+                    'Edit'.
+                  '</a>'.
+                  '<a class="btn btn-danger ml-1" href="'.base_url().'recipes/delete/'.$recipe['id'].'">'.
+                    'Delete'.
+                  '</a>';
+      echo form_close();
+      echo    '</td>'.
+            '</tr>';
+    }
+    else
+    {
+      echo 'Public Recipe'.'</td>'.'</tr>';
+    }
   }
  ?>
  </tbody>
@@ -76,4 +101,7 @@ $this->load->view('template/header', $data);
   </div>
 </div>
 
+<pre>
+  <?php// print_r($recipes); ?>
+</pre>
 <?php $this->load->view('template/footer'); ?>
