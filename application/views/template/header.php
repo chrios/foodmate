@@ -15,35 +15,37 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarFoodmate">
-  <ul class="navbar-nav mr-auto">
-    <?php if ($this->ion_auth->is_admin())
-    {
-      echo '<li class="nav-item';
-      if($active === 'admin') {echo ' active';}
-     echo '">'.
-        '<a class="nav-link" href="'. base_url() . 'auth/">Admin</a>'.
-        '</li>';
-    }
-    ?>
-      <li class="nav-item <?php if($active === 'recipes') {echo ' active';} ?>">
-        <a class="nav-link" href="<?php echo base_url() . 'recipes/'?>">Recipes</a>
-      </li>
-      <li class="nav-item <?php if($active === 'lists') {echo ' active';} ?>">
-        <a class="nav-link" href="<?php echo base_url() . 'lists'?>">Shopping Lists</a>
-      </li>
-      <!--<li class="nav-item <?php if($active === 'inventory') {echo ' active';} ?>">
-        <a class="nav-link" href="<?php echo base_url() . 'inventory'?>">Inventory</a>
-      </li>-->
-    </ul>
-<!--Login/logout buttons-->
-<?php
-if ($this->ion_auth->logged_in())
-{
-  echo '    <a class="btn btn-danger" href="' . base_url() . 'auth/logout' . '">Log out</a>';
-} else {
-  echo '    <a class="btn btn-success" href="' . base_url() . 'auth/login' . '">Login</a>';
-}
-?>
+    <ul class="navbar-nav mr-auto">
+      <!--Logged in navbar elements-->
+      <?php
+        if ($this->ion_auth->logged_in())
+        {
+          // If an admin user
+          if ($this->ion_auth->is_admin())
+          {
+            echo '<li class="nav-item';
+            if($active === 'admin') {echo ' active';}
+           echo '">'.
+              '<a class="nav-link" href="'. base_url() . 'auth/">Admin</a>'.
+              '</li>';
+          }
+          //And other, usual navbar items
+
+          //Recipes controller link
+          echo '<li class="nav-item ';
+          if($active === 'recipes') {echo ' active';};
+          echo '"><a class="nav-link" href="' . base_url() . 'recipes">Recipes</a></li>';
+
+          //Lists controller link
+          echo '<li class="nav-item ';
+          if($active === 'lists') {echo ' active';};
+          echo '"><a class="nav-link" href="' . base_url() . 'lists">Lists</a></li>';
+          echo '</ul>';
+
+          //Logout button
+          echo '<a class="btn btn-danger btn-sm" href="' . base_url() . 'auth/logout' . '">Log out</a>';
+        }
+      ?>
   </div>
 </nav>
 <div class="container text-left mt-3 mb-5">

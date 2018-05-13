@@ -22,11 +22,6 @@ $this->load->view('template/header', $data);
 
 <p><?php echo form_submit('submit', 'Login', 'class="btn btn-success btn-block mt-3"');?></p>
 
-<div class="form-check">
-  <label class="form-check-label">Remember me?</label>
-  <?php echo form_checkbox('remember', '1', FALSE, 'id="remember"', 'class="form-check-input mt-3"');?>
-</div>
-
 <p class="mt-3"><a href="forgot_password">Forgot your password?</a></p>
 
 <?php echo form_close();?>
