@@ -122,17 +122,16 @@ DROP TABLE IF EXISTS `unit`;
 CREATE TABLE `unit` (
 	`id` 						int(16) unsigned NOT NULL AUTO_INCREMENT,
 	`name` 					varchar(255) NOT NULL,
-	`short`					varchar(255) NOT NULL,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
   -- Dumping data for table `unit`
-INSERT INTO `unit` (`name`, `short`)
+INSERT INTO `unit` (`name`)
 VALUES
-	('tablespoon', 'tbsp'),
-	('gram', 'g'),
-	('quantity', 'of'),
-	('mililitres', 'ml'),
-	('cup', 'cup');
+	('tablespoon'),
+	('gram'),
+	('quantity'),
+	('mililitres'),
+	('cup');
 
   --
   -- RECIPE TABLE

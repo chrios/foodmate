@@ -51,7 +51,7 @@ class Recipes_model extends CI_Model {
       unit_id,
       ingredient_id,
       quantity,
-      short,
+      unit.name as unit_name,
       ingredient.name'
     );
     $this->db->from('recipe_ingredient');
@@ -82,7 +82,7 @@ class Recipes_model extends CI_Model {
 */
   public function get_units()
   {
-    $query = $this->db->select('id as unit_id, short, name as unit_name')->from('unit')->get();
+    $query = $this->db->select('id as unit_id, name as unit_name')->from('unit')->get();
     return $query->result();
   }
 /*
@@ -106,7 +106,7 @@ class Recipes_model extends CI_Model {
 */
   public function add_ingredient_to_recipe($recipe_id, $ingredient, $quantity, $units)
   {
-    //get the unit id from short name
+    //get the unit id from name
     $unit_id = $this->recipes_model->get_unit_id($units);
     //get the ingredient id from name
     $ingredient_id = $this->recipes_model->get_ingredient_id($ingredient);
@@ -144,11 +144,11 @@ class Recipes_model extends CI_Model {
     return $query;
   }
 /*
-* gets unit id from short name
+* gets unit id from name
 */
-  public function get_unit_id($short_name)
+  public function get_unit_id($unit_name)
   {
-    $query = $this->db->select('id as unit_id')->from('unit')->where('unit.short', $short_name)->get();
+    $query = $this->db->select('id as unit_id')->from('unit')->where('unit.name', $unit_name)->get();
     return $query->row();
   }
 /*

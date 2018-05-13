@@ -33,7 +33,7 @@ allow user to create more recipe_ingredients in the recipe
               form_open("lists/edit/$list_id", 'class="mb-0"').
               '<input type="hidden" name="delete_recipe_from_list" value="'.$list_recipe->id.'">'.
               '<button class="btn btn-danger btn-sm">'.
-                'Delete'.
+                '<span class="oi oi-trash" title="Delete" aria-hidden="true"></span> Delete'.
               '</button>'.
               form_close().
             '</td>'.
@@ -50,11 +50,9 @@ allow user to create more recipe_ingredients in the recipe
          } ?>
        </select>
      </td>
-     <td class="text-right">
-       <div class="btn-group" role="group">
-         <button class="btn btn-success">Add</button>
-         <a class="btn btn-warning" id="cancelRecipeButton">Cancel</a>
-       </div>
+     <td class="text-right align-middle">
+         <button class="btn btn-success btn-sm"><span class="oi oi-task" title="Delete" aria-hidden="true"></span> Add</button>
+         <a class="btn btn-warning ml-1 btn-sm" style="color:white" id="cancelRecipeButton"><span class="oi oi-x" title="Delete" aria-hidden="true"></span> Cancel</a>
        <?php echo form_close(); ?>
      </td>
    </tr>

@@ -14,11 +14,11 @@ allow user to add units
 allow user to create more recipe_ingredients in the recipe
 -->
 <h2 class="mt-4">Ingredients</h2>
-<table class="table table-sm mt-4" id="ingredientTable">
+<table class="table mt-4 table-sm" id="ingredientTable">
   <thead>
     <tr>
-      <th scope="column" style="width: 16.66%">Amount</th>
-      <th scope="column" style="width: 16.66%">Unit</th>
+      <th scope="column" style="width: 12%" class="text-center"></th>
+      <th scope="column" style="width: 20%">Quantity</th>
       <th scope="column">Ingredient</th>
       <th class="text-right" style="width: 16.66%" scope="column">Action</th>
     </tr>
@@ -27,21 +27,22 @@ allow user to create more recipe_ingredients in the recipe
 <?php
   foreach($recipe_ingredients as $ingredient)
   {
+    $ingredient_quantity = $ingredient->quantity + 0;
     echo  '<tr>'.
-            '<td class="align-middle">'.
-              $ingredient->quantity.
+            '<td class="align-middle text-right">'.
+              $ingredient_quantity.
             '</td>'.
             '<td class="align-middle">'.
-              $ingredient->short.
+              $ingredient->unit_name.
             '</td>'.
             '<td class="align-middle">'.
               $ingredient->name.
             '</td>'.
             '<td class="text-right">'.
-              form_open("recipes/edit/$recipe_id").
+              form_open("recipes/edit/$recipe_id", 'class="mb-0"').
               '<input type="hidden" name="deleted_ingredient" value="'.$ingredient->recipe_ingredient_id.'">'.
               '<button class="btn btn-danger btn-sm">'.
-                'Delete'.
+                '<span class="oi oi-trash" title="Delete" aria-hidden="true"></span> Delete'.
               '</button>'.
               form_close().
             '</td>'.
@@ -57,15 +58,22 @@ allow user to create more recipe_ingredients in the recipe
       <select name="units" class="form-control" value="" id="unitInput">
         <?php foreach($units as $unit)
         {
-          echo '<option>'.$unit->short.'</option>';
+          echo '<option>'.$unit->unit_name.'</option>';
         } ?>
     </td>
-    <td><input type="text" name="ingredient" class="form-control" placeholder="Ingredient" id="ingredientInput"></td>
+    <td><input type="text" name="ingredient" class="form-control" placeholder="Ingredient" id="ingredientInput" list="ingredients">
+    <datalist id="ingredients">
+      <?php
+        foreach($ingredients as $ingredient)
+        {
+          echo '<option value="'.$ingredient->name.'">';
+        }
+       ?>
+     </datalist>
+    </td>
     <td class="text-right">
-      <div class="btn-group" role="group">
-        <button class="btn btn-success">Save</button>
-        <a class="btn btn-warning" id="cancelIngredient">Cancel</a>
-      </div>
+        <button class="btn btn-success btn-sm"><span class="oi oi-task" title="Delete" aria-hidden="true"></span> Save</button>
+        <a class="btn btn-warning btn-sm ml-1" style="color:white" id="cancelIngredient"><span class="oi oi-x" title="Delete" aria-hidden="true"></span> Cancel</a>
       <?php echo form_close(); ?>
     </td>
   </tr>
@@ -129,7 +137,7 @@ allow user to create more steps in the recipe
 <table class="table table-sm mt-4">
   <thead>
     <tr>
-      <th scope="column" style="width: 16.66%">Step</th>
+      <th scope="column" style="width: 6%">Step</th>
       <th scope="column">Method</th>
       <th class="text-right" scope="column" style="width: 16.66%">Action</th>
     </tr>
@@ -146,10 +154,10 @@ allow user to create more steps in the recipe
               $step->step_text.
             '</td>'.
             '<td class="text-right">'.
-              form_open("recipes/edit/$recipe_id").
+              form_open("recipes/edit/$recipe_id", 'class="mb-0"').
               '<input type="hidden" name="deleted_step" value="'.$step->step_id.'">'.
-              '<button class="btn btn-danger btn-sm">'.
-                'Delete'.
+              '<button class="btn btn-danger btn-sm ">'.
+                '<span class="oi oi-trash" title="Delete" aria-hidden="true"></span> Delete'.
               '</button>'.
               form_close().
             '</td>'.
@@ -172,10 +180,8 @@ allow user to create more steps in the recipe
     ?></td>
     <td><textarea name="step_method" class="form-control" placeholder="Add step method here..." id="stepMethodInput" rows="3"></textarea></td>
     <td class="text-right">
-      <div class="btn-group" role="group">
-        <button class="btn btn-success">Save</button>
-        <a class="btn btn-warning" id="cancelStep">Cancel</a>
-      </div>
+        <button class="btn btn-success btn-sm"><span class="oi oi-task" title="Delete" aria-hidden="true"></span> Save</button>
+        <a class="btn btn-warning btn-sm" style="color:white" id="cancelStep"><span class="oi oi-x" title="Delete" aria-hidden="true"></span> Cancel</a>
       <?php echo form_close(); ?>
     </td>
   </tr>

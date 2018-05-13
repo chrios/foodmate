@@ -27,11 +27,11 @@ $this->load->view('template/header', $data);
             '</td>'.
             '<td class="text-right">'.
               form_open("lists/delete/$list->list_id", 'style="margin:0"', $hidden).
-                '<a class="btn btn-warning" href="'.base_url().'lists/edit/'.$list->list_id.'">'.
-                  'Edit'.
+                '<a class="btn btn-warning btn-sm" href="'.base_url().'lists/edit/'.$list->list_id.'" style="color:white">'.
+                  '<span class="oi oi-pencil" title="Delete" aria-hidden="true"></span> Edit'.
                 '</a>'.
-                '<button class="btn btn-danger ml-1">'.
-                  'Delete'.
+                '<button class="btn btn-danger btn-sm ml-1">'.
+                  '<span class="oi oi-trash" title="Delete" aria-hidden="true"></span> Delete'.
                 '</button>'.
               form_close().
             '</td>'.
@@ -41,9 +41,7 @@ $this->load->view('template/header', $data);
  </tbody>
 </table>
 
-<button class="btn btn-block btn-success" data-toggle="modal" data-target="#createListModal">
-  Create new list
-</button>
+<button class="btn btn-block btn-success btn-lg" data-toggle="modal" data-target="#createListModal">Create new list</button>
 
 <!--
       Create list modal
@@ -71,8 +69,8 @@ $this->load->view('template/header', $data);
          ?>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-success">Create</button>
+        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal"><span class="oi oi-x" title="Delete" aria-hidden="true"></span> Cancel</button>
+        <button type="submit" class="btn btn-success btn-sm"><span class="oi oi-plus" aria-hidden="true"></span> Create</button>
         <?php echo form_close(); ?>
       </div>
     </div>

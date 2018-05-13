@@ -15,10 +15,11 @@ $this->load->view('template/header', $data);
       <?php
       foreach($recipe_ingredients as $ingredient)
       {
+        $ingredient_quantity = $ingredient->quantity + 0;
         echo '<li class="list-group-item">'.
-        $ingredient->quantity.
+        $ingredient_quantity.
         ' '.
-        $ingredient->short.
+        $ingredient->unit_name.
         ' '.
         $ingredient->name.
         '</li>';
