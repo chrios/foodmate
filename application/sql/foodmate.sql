@@ -1,5 +1,5 @@
 USE ci;
-  ----------------------------
+  -- --------------------------
   -- Ion Auth table structure
   --
 
@@ -82,7 +82,7 @@ CREATE TABLE `login_attempts` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-  ------------------------------------------------------------
+  -- ----------------------------------------------------------
   -- Foodmate installation SQL script
   -- Creates new SQL database schema for foodmate application
   --
@@ -187,7 +187,7 @@ DROP TABLE IF EXISTS `step`;
 CREATE TABLE `step` (
 	`id` 						int(16) unsigned NOT NULL AUTO_INCREMENT,
 	`step_number`		int(16) unsigned NOT NULL,
-	`step_text` 		varchar(255) NOT NULL,
+	`step_text` 		varchar(1023) NOT NULL,
 	`recipe_id`			int(16) unsigned NOT NULL,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -201,13 +201,13 @@ VALUES
   --
   -- RECIPE TAGS TABLE
   --
-  --CREATE TABLE `recipe_tag` (
+  -- CREATE TABLE `recipe_tag` (
   --	`tag`
   --	`recipe_id`					int(16) unsigned NOT NULL,
   --	PRIMARY KEY (`id`),
   --	KEY (`fk_recipe_tag_recipe_recipetag1_idx`) (`recipe_id`),
   --	CONSTRAINT `fk_recipe_tag_recipe_recipetag1` FOREIGN KEY (`recipe_id`) REFERENCES `recipe` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-  --) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  -- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
   --
   -- INVENTORY TABLE
@@ -312,4 +312,4 @@ CREATE TABLE `ci_sessions` (
   `timestamp`     int(10)     unsigned DEFAULT 0 NOT NULL,
   `data`          blob        NOT NULL,
   KEY `ci_sessions_timestamp` (`timestamp`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

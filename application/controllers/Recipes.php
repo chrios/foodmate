@@ -82,10 +82,11 @@ class Recipes extends CI_Controller {
     {
       redirect('recipes');
     }
-    //check if recipe belongs to current user
+    //check if recipe belongs to current user, or is public recipe
     $curnt_userid = $this->ion_auth->user()->row()->id;
     $recipe_userid = $this->recipes_model->check_recipe_owner($recipe_id);
-    if ($recipe_userid[0]->user_id === $curnt_userid)
+    $recipe_public = $this->recipes_model->check_recipe_global($recipe_id);
+    if ($recipe_userid[0]->user_id === $curnt_userid || $recipe_public)
     {
       $data['recipe_ingredients'] = $this->recipes_model->get_recipe_ingredients($recipe_id);
       $data['steps'] = $this->recipes_model->get_recipe_steps($recipe_id);

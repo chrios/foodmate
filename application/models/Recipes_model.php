@@ -254,6 +254,24 @@ class Recipes_model extends CI_Model {
     //Return array of results from query
     return $query->result_array();
   }
+/*
+* returns true if recipe is global or false if not global
+*/
+  public function check_recipe_global($recipe_id)
+  {
+    $this->db->select('global_flag');
+    $this->db->where('id', $recipe_id);
+    $query = $this->db->get('recipe');
+    $results = $query->row();
+    if ($results->global_flag == 1)
+    {
+      return TRUE;
+    }
+    else
+    {
+      return FALSE;
+    }
+  }
 
   /*    share()    */
 /*

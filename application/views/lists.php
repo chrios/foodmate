@@ -27,14 +27,12 @@ $this->load->view('template/header', $data);
             '</td>'.
             '<td class="text-right">'.
               form_open("lists/delete/$list->list_id", 'style="margin:0"', $hidden).
-              '<div class="btn-group btn-group" role="group">'.
                 '<a class="btn btn-warning" href="'.base_url().'lists/edit/'.$list->list_id.'">'.
                   'Edit'.
                 '</a>'.
-                '<button class="btn btn-danger">'.
+                '<button class="btn btn-danger ml-1">'.
                   'Delete'.
                 '</button>'.
-              '</div>'.
               form_close().
             '</td>'.
           '</tr>';
