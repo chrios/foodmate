@@ -64,6 +64,7 @@ $this->load->view('template/header', $data);
 </table>
 
 <button class="btn btn-block btn-success btn-lg" data-toggle="modal" data-target="#createRecipeModal">Create new recipe</button>
+<button class="btn btn-block btn-success btn-lg" data-toggle="modal" data-target="#importRecipeModal">Import a recipe</button>
 
 <!--
       Create recipe modal
@@ -91,14 +92,47 @@ $this->load->view('template/header', $data);
          ?>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal"><span class="oi oi-x" title="Delete" aria-hidden="true"></span> Cancel</button>
-        <button type="submit" class="btn btn-success btn-sm"><span class="oi oi-plus" title="Delete" aria-hidden="true"></span> Create</button>
+        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal"><span class="oi oi-x" title="Cancel" aria-hidden="true"></span> Cancel</button>
+        <button type="submit" class="btn btn-success btn-sm"><span class="oi oi-plus" title="Create" aria-hidden="true"></span> Create</button>
         <?php echo form_close(); ?>
       </div>
     </div>
   </div>
 </div>
 
+<!--
+      Import recipe modal
+      Takes in URL
+      Posts data to recipes/import
+-->
+<div class="modal fade" id="importRecipeModal" tabindex="-1" role="dialog" aria-labelledby="importRecipeModal" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Enter the Taste.com.au URL</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <?php
+          $form_attr = array(
+            'class' => 'form-control',
+            'type' => 'text',
+            'placeholder' => 'www.taste.com.au/recipe'
+          );
+          echo form_open('recipes/import');
+          echo form_input('url', '', $form_attr);
+         ?>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal"><span class="oi oi-x" title="Cancel" aria-hidden="true"></span> Cancel</button>
+        <button type="submit" class="btn btn-success btn-sm"><span class="oi oi-plus" title="Import" aria-hidden="true"></span> Import</button>
+        <?php echo form_close(); ?>
+      </div>
+    </div>
+  </div>
+</div>
 <pre>
   <?php// print_r($recipes); ?>
 </pre>

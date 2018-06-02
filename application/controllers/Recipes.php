@@ -225,6 +225,16 @@ class Recipes extends CI_Controller {
     $this->load->view('delete_recipe', $data);
   }
 /*
+* http://base_url/recipes/import
+* Import recipe.
+* POST a URL here to attempt an import.
+*/
+  public function import()
+  {
+    $url = $this->input->post('url');
+
+  }
+/*
 * PRIVATE FUNCTIONS
 */
 /*
