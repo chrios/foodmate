@@ -224,12 +224,12 @@ class Recipes extends CI_Controller {
     $data['recipe_id'] = $recipe_id;
     $this->load->view('delete_recipe', $data);
   }
-  /*
-  * PRIVATE FUNCTIONS
-  */
-  /*
-  * Check if $recipe_id belongs to current logged in user
-  */
+/*
+* PRIVATE FUNCTIONS
+*/
+/*
+* Check if $recipe_id belongs to current logged in user
+*/
   private function owner_logged_in($recipe_id)
   {
     $curnt_userid = $this->ion_auth->user()->row()->id;

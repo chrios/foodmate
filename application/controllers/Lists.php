@@ -64,9 +64,7 @@ class Lists extends CI_Controller {
     //load Recipes_model (we need some functions from there)
     $this->load->model('recipes_model');
     //check if list belongs to current user
-    $curnt_userid = $this->ion_auth->user()->row()->id;
-    $list_userid = $this->lists_model->get_list_owner($list_id);
-    if ($list_userid->user_id === $curnt_userid)
+    if ($this->owner_logged_in($list_id))
     {
       //get list name
       $data['list_name'] = $this->lists_model->get_list_name($list_id)->name;
@@ -121,9 +119,7 @@ class Lists extends CI_Controller {
     if ($add_recipe !== NULL)
     {
       //check if list belongs to current user
-      $curnt_userid = $this->ion_auth->user()->row()->id;
-      $list_userid = $this->lists_model->get_list_owner($list_id);
-      if ($list_userid->user_id === $curnt_userid)
+      if ($this->owner_logged_in($list_id))
       {
         //insert recipe into list
         $this->lists_model->add_recipe_to_list($add_recipe, $list_id);
@@ -140,9 +136,7 @@ class Lists extends CI_Controller {
     if ($remove_recipe !== NULL)
     {
       //check if list belongs to current user
-      $curnt_userid = $this->ion_auth->user()->row()->id;
-      $list_userid = $this->lists_model->get_list_owner($list_id);
-      if ($list_userid->user_id === $curnt_userid)
+      if ($this->owner_logged_in($list_id))
       {
         //remove recipe from list
         $this->lists_model->remove_recipe_from_list($remove_recipe);
@@ -153,9 +147,7 @@ class Lists extends CI_Controller {
     else
     {
       //check if list belongs to current user
-      $curnt_userid = $this->ion_auth->user()->row()->id;
-      $list_userid = $this->lists_model->get_list_owner($list_id);
-      if ($list_userid->user_id === $curnt_userid)
+      if ($this->owner_logged_in($list_id))
       {
         $data['list_recipes'] = $this->lists_model->get_list_recipes($list_id);
         $data['list_name'] = $this->lists_model->get_list_name($list_id)->name;
@@ -181,9 +173,7 @@ class Lists extends CI_Controller {
     if ($list_id !== NULL)
     {
       //check if list belongs to current user
-      $curnt_userid = $this->ion_auth->user()->row()->id;
-      $list_userid = $this->lists_model->get_list_owner($list_id);
-      if ($list_userid->user_id === $curnt_userid)
+      if ($this->owner_logged_in($list_id))
       {
         $this->lists_model->delete_list($list_id);
         redirect('lists');
@@ -192,6 +182,25 @@ class Lists extends CI_Controller {
     else
     {
         redirect('lists');
+    }
+  }
+/*
+* PRIVATE FUNCTIONS
+*/
+/*
+* Check if $list_id belongs to current logged in user
+*/
+  private function owner_logged_in($list_id)
+  {
+    $curnt_userid = $this->ion_auth->user()->row()->id;
+    $list_userid = $this->lists_model->get_list_owner($list_id);
+    if ($list_userid->user_id === $curnt_userid)
+    {
+      return TRUE;
+    }
+    else
+    {
+      return FALSE;
     }
   }
 }
