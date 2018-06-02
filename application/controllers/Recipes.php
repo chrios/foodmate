@@ -13,6 +13,7 @@ class Recipes extends CI_Controller {
       redirect('auth/login');
     }
   }
+
 /*
 * http://base_url/recipes
 * Shows list of user recipes with edit button and create new recipe button.
@@ -50,9 +51,7 @@ class Recipes extends CI_Controller {
   {
     $action = $this->input->post('action');
     //check if recipe belongs to current user
-    $curnt_userid = $this->ion_auth->user()->row()->id;
-    $recipe_userid = $this->recipes_model->check_recipe_owner($recipe_id);
-    if ($recipe_userid[0]->user_id === $curnt_userid)
+    if ($this->owner_logged_in($recipe_id))
     {
       if ($action === 'share')    //if $_POST is set to share
       {
@@ -83,10 +82,8 @@ class Recipes extends CI_Controller {
       redirect('recipes');
     }
     //check if recipe belongs to current user, or is public recipe
-    $curnt_userid = $this->ion_auth->user()->row()->id;
-    $recipe_userid = $this->recipes_model->check_recipe_owner($recipe_id);
     $recipe_public = $this->recipes_model->check_recipe_global($recipe_id);
-    if ($recipe_userid[0]->user_id === $curnt_userid || $recipe_public)
+    if ($this->owner_logged_in($recipe_id) || $recipe_public)
     {
       $data['recipe_ingredients'] = $this->recipes_model->get_recipe_ingredients($recipe_id);
       $data['steps'] = $this->recipes_model->get_recipe_steps($recipe_id);
@@ -104,7 +101,7 @@ class Recipes extends CI_Controller {
     //Redirect if argument is null
     if($recipe_id === NULL)
     {
-      //redirect('recipes');
+      redirect('recipes');
     }
     //
     //ADD NEW INGREDIENT
@@ -117,9 +114,7 @@ class Recipes extends CI_Controller {
     if ($new_ingredient !== NULL && $new_units !== NULL && $new_quantity !== NULL)
     {
       //check if recipe belongs to current user
-      $curnt_userid = $this->ion_auth->user()->row()->id;
-      $recipe_userid = $this->recipes_model->check_recipe_owner($recipe_id);
-      if ($recipe_userid[0]->user_id === $curnt_userid)
+      if ($this->owner_logged_in($recipe_id))
       {
         //update existing recipe
         $this->recipes_model->add_ingredient_to_recipe($recipe_id, $new_ingredient, $new_quantity, $new_units);
@@ -136,9 +131,7 @@ class Recipes extends CI_Controller {
     if ($recipe_ingredient_id !== NULL)
     {
       //check if recipe belongs to current user
-      $curnt_userid = $this->ion_auth->user()->row()->id;
-      $recipe_userid = $this->recipes_model->check_recipe_owner($recipe_id);
-      if ($recipe_userid[0]->user_id === $curnt_userid)
+      if ($this->owner_logged_in($recipe_id))
       {
         //delete recipe_ingredient row
         $this->recipes_model->delete_recipe_ingredient($recipe_ingredient_id);
@@ -155,9 +148,7 @@ class Recipes extends CI_Controller {
     if ($step_method !== NULL)
     {
       //check if recipe belongs to current user
-      $curnt_userid = $this->ion_auth->user()->row()->id;
-      $recipe_userid = $this->recipes_model->check_recipe_owner($recipe_id);
-      if ($recipe_userid[0]->user_id === $curnt_userid)
+      if ($this->owner_logged_in($recipe_id))
       {
         //add new recipe step
         $this->recipes_model->add_recipe_step($recipe_id, $step_method);
@@ -174,9 +165,7 @@ class Recipes extends CI_Controller {
     if ($deleted_step_id !== NULL)
     {
       //check if recipe belongs to current user
-      $curnt_userid = $this->ion_auth->user()->row()->id;
-      $recipe_userid = $this->recipes_model->check_recipe_owner($recipe_id);
-      if ($recipe_userid[0]->user_id === $curnt_userid)
+      if ($this->owner_logged_in($recipe_id))
       {
         //delete recipe step
         $this->recipes_model->delete_step($deleted_step_id);
@@ -191,17 +180,16 @@ class Recipes extends CI_Controller {
     else
     {
       //check if recipe belongs to current user
-      $curnt_userid = $this->ion_auth->user()->row()->id;
-      $recipe_userid = $this->recipes_model->check_recipe_owner($recipe_id);
-      if ($recipe_userid[0]->user_id === $curnt_userid)
+      if ($this->owner_logged_in($recipe_id))
       {
+        //get recipe data
         $data['recipe_ingredients'] = $this->recipes_model->get_recipe_ingredients($recipe_id);
         $data['steps'] = $this->recipes_model->get_recipe_steps($recipe_id);
         $data['recipe_id'] = $recipe_id;
         $data['units'] = $this->recipes_model->get_units();
         $data['ingredients'] = $this->recipes_model->get_ingredients();
         $data['recipe_name'] = $this->recipes_model->get_recipe_name($recipe_id)->recipe_name;
-        //$data['ingredients'] =
+        //load recipe editor
         $this->load->view('edit_recipe', $data);
       }
     }
@@ -224,9 +212,7 @@ class Recipes extends CI_Controller {
     if($is_delete === 'Delete')
     {
       //check if recipe belongs to current user
-      $curnt_userid = $this->ion_auth->user()->row()->id;
-      $recipe_userid = $this->recipes_model->check_recipe_owner($recipe_id);
-      if ($recipe_userid[0]->user_id === $curnt_userid)
+      if ($this->owner_logged_in($recipe_id))
       {
         //delete existing recipe
         $this->recipes_model->delete_recipe($recipe_id);
@@ -238,4 +224,24 @@ class Recipes extends CI_Controller {
     $data['recipe_id'] = $recipe_id;
     $this->load->view('delete_recipe', $data);
   }
+  /*
+  * PRIVATE FUNCTIONS
+  */
+  /*
+  * Check if $recipe_id belongs to current logged in user
+  */
+  private function owner_logged_in($recipe_id)
+  {
+    $curnt_userid = $this->ion_auth->user()->row()->id;
+    $recipe_userid = $this->recipes_model->check_recipe_owner($recipe_id);
+    if ($recipe_userid[0]->user_id === $curnt_userid)
+    {
+      return TRUE;
+    }
+    else
+    {
+      return FALSE;
+    }
+  }
+
 }
