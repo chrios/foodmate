@@ -231,32 +231,35 @@ class Recipes extends CI_Controller {
 * POST a URL here to attempt an import.
 */
   public function import()
-  {/*
+  {
     $url = $this->input->post('url');
-    echo $url;
-    //Scrape data fomr URL
 	$data['recipes'] = $this->recipes_model->scrape($url);
-	//Testing
-	var_dump($data);
-	//Setup Vars
-	$title  = $data['recipes']['title'];
-	$ingredients = $data['recipes']['ingredients'];
-	$method = $data['recipes']['method'];
-	$units = 'gram';
-	
-	//Create Recipes from Title
-	$new_recipe = $this->recipes_model->create_recipe($title);
-	$recipe_id = $new_recipe->id;
-	
-	foreach ($ingredients as $i){
-		//Split items into Qty / Item by the first whitespace. 
-		$item = explode(' ', $i, 2);
-		$this->recipes_model->add_ingredient_to_recipe($recipe_id, $item[1], $item[0], $units);
-	}
-	
-	//$this->load->view('import', $data);
-	*/
-  } 
+    $recipe_name = $data['recipes']['title'];
+    if ($recipe_name !== NULL)    //if $_POST is set
+    {
+		$recipe_id = $this->recipes_model->create_recipe($recipe_name)->id; //create entry in recipe table
+		
+		// Get Data to Pass
+	    $data['recipe_ingredients'] = $this->recipes_model->get_recipe_ingredients($recipe_id);
+        $data['imported_ingredients'] = $data['recipes']['ingredients'];
+		$data['steps'] = $this->recipes_model->get_recipe_steps($recipe_id);
+		$data['imported_steps'] = $data['recipes']['method'];
+        $data['recipe_id'] = $recipe_id;
+        $data['units'] = $this->recipes_model->get_units();
+        $data['ingredients'] = $this->recipes_model->get_ingredients();
+        $data['recipe_name'] = $this->recipes_model->get_recipe_name($recipe_id)->recipe_name;
+       
+	//load recipe editor
+      $this->load->view('edit_import', $data);
+	  //redirect("recipes/edit_import/$recipe_id");
+    }
+    else
+    {
+      redirect("recipes"); //else redirect to view all recipes
+    }
+  }
+  
+ 
 /*
 * http://base_url/recipes/search
 * Search recipes.
