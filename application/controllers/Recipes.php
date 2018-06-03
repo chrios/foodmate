@@ -232,8 +232,20 @@ class Recipes extends CI_Controller {
   public function import()
   {
     $url = $this->input->post('url');
-
+    echo $url;
   }
+/*
+* http://base_url/recipes/search
+* Search recipes.
+* POST a string here to get a list of recipes that cotnain that string in ingredients or in recipe name.
+*/
+  public function search()
+  {
+    $tring = $this->input->post('string');
+
+    echo $tring;
+  }
+
 /*
 * PRIVATE FUNCTIONS
 */

@@ -41,6 +41,19 @@
           if($active === 'lists') {echo ' active';};
           echo '"><a class="nav-link" href="' . base_url() . 'lists">Lists</a></li>';
           echo '</ul>';
+          ?>
+
+          <!-- Search bar -->
+          <form class="form-inline my-lg-0 mr-3" action="<?php echo base_url('recipes/search');?>" method="post">
+            <div class="input-group">
+              <input class="form-control" type="text" placeholder="Search" aria-label="Search" name="string">
+              <div class="input-group-append">
+                <button class="btn btn-sm btn-success" type="submit">Search</button>
+              </div>
+            </div>
+          </form>
+
+          <?php
 
           //Logout button
           echo '<a class="btn btn-danger btn-sm" href="' . base_url() . 'auth/logout' . '">Log out</a>';
