@@ -308,4 +308,125 @@ class Recipes_model extends CI_Model {
       $this->db->where('id', $recipe_id);
       $this->db->update('recipe', $data);
     }
+	
+/*
+*	Searches via POST string, returns recipes.
+*/
+	 public function search_recipes()
+  {
+	// Search String from User. 
+	$str = $this->input->get('string');
+	
+	//explode into array of Substrings
+	$explode = explode(" ", $str);
+	
+	//build WHERE condition
+	//Resulting string is something like -> (recipe.name LIKE "%example%" AND recipe.name LIKE "%string%" OR ingredient.name LIKE "%example%'.. etc)
+	//Recipe Name Half of WHERE clause
+	$whereString = '(';
+	$i = 1;
+	
+	foreach ($explode as $e){
+		$whereString = $whereString.'recipe.name LIKE "%'.$e.'%"';
+		// If not at the last element, add an AND clause
+		if ($i < sizeof($explode)){
+			$whereString = $whereString.' AND ';
+			$i++;
+		}
+	}
+	$whereString = $whereString.')';
+	
+	//Ingredient Name half of WHERE clause
+	$whereString = $whereString.' OR (ingredient.name LIKE ';
+	$i = 1;
+	
+	foreach ($explode as $e){
+		$whereString = $whereString.'"%'.$e.'%"';
+		// If not at the last element, add an AND clause
+		if ($i < sizeof($explode)){
+			$whereString = $whereString.' AND ';
+			$i++;
+		}
+	}
+	$whereString = $whereString.')';
+	
+	// Select IDs where recipe, or ingredient names match string. 
+	$this->db->distinct();
+	$this->db->select('recipe.id, recipe.name, recipe.user_id, recipe.global_flag')->from('recipe');
+	$this->db->join('recipe_ingredient', 'recipe.id = recipe_ingredient.recipe_id');
+	$this->db->join('ingredient', 'recipe_ingredient.id = ingredient.id');
+	//$this->db->where('recipe.name LIKE "%'.$str.'%" OR ingredient.name LIKE "%'.$str.'%"');
+	$this->db->where($whereString);
+	$this->db->order_by('recipe.name', 'ASC');
+	$query = $this->db->get();
+	
+	// Returns resulting array	
+    return $query->result_array();
+  }
+  
+  public function scrape($url) {
+	// Takes and Input URL from Taste, Returns an Array of Arrays with Title, ingredients, and Method.
+	// Keys are 'title', 'ingredients', 'method'.
+	$html = file_get_contents($url);
+	$doc = new DOMDocument();
+
+	libxml_use_internal_errors(TRUE);
+
+	if(!empty($html)) { //IF any HTML is returned
+		//echo 'Successfully got HTML from: '.$url.' </br>';
+
+		$doc -> loadHTML($html);
+		libxml_clear_errors();
+		$xpath = new DOMXPath($doc);
+
+		$titleq = $xpath->query('//h1');
+		$title;
+
+		if ($titleq->length >0) {
+			foreach($titleq as $row){
+				$title = $row->nodeValue;
+			}
+		}
+
+		$ingredients = $xpath->query('//div[@class="ingredient-description"]');
+		$ingArray = [];
+		$i = 0;
+
+		if ($ingredients->length >0) {
+
+			foreach($ingredients as $row){
+				$ingArray[$i] = $row->nodeValue;
+				$i++;
+			}
+		}
+
+		$method = $xpath->query('//div[@class="recipe-method-step-content"]');
+		$methArray = [];
+		$i = 1;
+
+		if ($method -> length > 0) {
+			foreach($method as $r) {
+				$methArray[$i] = $r->nodeValue;
+				$i++;
+			}
+		}
+
+	}
+		$recipe = array("title"=>$title, "ingredients"=>$ingArray, "method"=>$methArray);
+		return $recipe;
+
+	} // Function
+
+	public function get_recipe_id($recipe_name){
+			// Select IDs where recipe, or ingredient names match string. 
+		$this->db->select('recipe.id')->from('recipe');
+		//$this->db->where('recipe.name LIKE "%'.$str.'%" OR ingredient.name LIKE "%'.$str.'%"');
+		$this->db->where('name = "'.$recipe_name.'"');
+		$query = $this->db->get();
+		
+		// Returns resulting array	
+		return $query->result_array();
+  }
+	
 }
+
