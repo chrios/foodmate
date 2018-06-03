@@ -44,7 +44,7 @@
           ?>
 
           <!-- Search bar -->
-          <form class="form-inline my-lg-0 mr-3" action="<?php echo base_url('recipes/search');?>" method="post">
+          <form class="form-inline my-lg-0 mr-3" action="<?php echo base_url('recipes/search');?>" method="get">
             <div class="input-group">
               <input class="form-control" type="text" placeholder="Search" aria-label="Search" name="string">
               <div class="input-group-append">
