@@ -231,10 +231,32 @@ class Recipes extends CI_Controller {
 * POST a URL here to attempt an import.
 */
   public function import()
-  {
+  {/*
     $url = $this->input->post('url');
     echo $url;
-  }
+    //Scrape data fomr URL
+	$data['recipes'] = $this->recipes_model->scrape($url);
+	//Testing
+	var_dump($data);
+	//Setup Vars
+	$title  = $data['recipes']['title'];
+	$ingredients = $data['recipes']['ingredients'];
+	$method = $data['recipes']['method'];
+	$units = 'gram';
+	
+	//Create Recipes from Title
+	$new_recipe = $this->recipes_model->create_recipe($title);
+	$recipe_id = $new_recipe->id;
+	
+	foreach ($ingredients as $i){
+		//Split items into Qty / Item by the first whitespace. 
+		$item = explode(' ', $i, 2);
+		$this->recipes_model->add_ingredient_to_recipe($recipe_id, $item[1], $item[0], $units);
+	}
+	
+	//$this->load->view('import', $data);
+	*/
+  } 
 /*
 * http://base_url/recipes/search
 * Search recipes.
@@ -242,9 +264,10 @@ class Recipes extends CI_Controller {
 */
   public function search()
   {
-    $tring = $this->input->get('string');
-
-    echo $tring;
+    $data['recipes'] = $this->recipes_model->search_recipes();
+    $data['recipe_tags'] = $this->recipes_model->get_recipe_tags($data['recipes']);
+	
+	$this->load->view('search', $data);
   }
 /*
 * http://base_url/recipes/tag/$recipe_id
