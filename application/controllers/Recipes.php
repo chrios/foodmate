@@ -241,7 +241,7 @@ class Recipes extends CI_Controller {
 */
   public function search()
   {
-    $tring = $this->input->post('string');
+    $tring = $this->input->get('string');
 
     echo $tring;
   }
