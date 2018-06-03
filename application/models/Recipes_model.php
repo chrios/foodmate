@@ -348,7 +348,9 @@ class Recipes_model extends CI_Model {
 			$i++;
 		}
 	}
-	$whereString = $whereString.')';
+	$u_id = $this->ion_auth->user()->row()->id;
+	$whereString = $whereString.') AND (recipe.user_id = "'.$u_id.'" OR recipe.global_flag = "1")';
+	
 	
 	// Select IDs where recipe, or ingredient names match string. 
 	$this->db->distinct();
