@@ -248,6 +248,30 @@ CREATE TABLE `list_recipe` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
   --
+  --  TAGS TABLE
+  --
+
+DROP TABLE IF EXISTS `tag`;
+CREATE TABLE `tag` (
+	`id`            int(16) unsigned NOT NULL AUTO_INCREMENT,
+	`tag_name`      varchar(50) NOT NULL,
+	PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+  --
+  --  RECIPE TAGS TABLE
+  --
+
+DROP TABLE IF EXISTS `recipe_tag`;
+CREATE TABLE `recipe_tag` (
+`id`            int(16) unsigned NOT NULL AUTO_INCREMENT,
+`tag_id`        int(16) unsigned NOT NULL,
+`recipe_id`     int(16) unsigned NOT NULL,
+`user_id`       int(11) unsigned NOT NULL,
+PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+  --
   -- Add Constraints to tables
   --
 
@@ -273,6 +297,11 @@ ADD CONSTRAINT `fk_list_user_list1` FOREIGN KEY (`user_id`) REFERENCES `users` (
 ALTER TABLE `list_recipe`
 ADD CONSTRAINT `fk_list_recipe_list_list1` FOREIGN KEY (`list_id`) REFERENCES `list` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
 ADD CONSTRAINT `fk_list_recipe_recipe_list1` FOREIGN KEY (`recipe_id`) REFERENCES `recipe` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+ALTER TABLE `recipe_tag`
+ADD CONSTRAINT `fk_recipe_tag_tag_recipe_tag1` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+ADD CONSTRAINT `fk_recipe_tag_recipe_recipe1` FOREIGN KEY (`recipe_id`) REFERENCES `recipe` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+ADD CONSTRAINT `fk_recipe_tag_users_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
   --
   -- Add indexes to tables
@@ -300,6 +329,11 @@ ADD KEY `fk_list_user_list1_idx` (`user_id`);
 ALTER TABLE `list_recipe`
 ADD KEY `fk_list_recipe_list_list1_idx` (`list_id`),
 ADD KEY `fk_list_recipe_recipe_list1_idx` (`recipe_id`);
+
+ALTER TABLE `recipe_tag`
+ADD KEY `fk_recipe_tag_tag_recipe_tag1_idx` (`tag_id`),
+ADD KEY `fk_recipe_tag_recipe_recipe1_idx` (`recipe_id`),
+ADD KEY `fk_recipe_tag_users_users1_idx` (`user_id`);
 
   --
   -- CodeIgniter Sessions table

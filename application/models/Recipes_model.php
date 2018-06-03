@@ -19,6 +19,18 @@ class Recipes_model extends CI_Model {
     //Return array of results from query
     return $query->result_array();
   }
+
+  public function get_recipe_tags($recipes)
+  {
+    echo '<pre>';
+    foreach ($recipes as $recipe)
+    {
+      print_r($recipe['id']);
+    }
+
+    echo '</pre>';
+
+  }
   /*    create()    */
 /*
 * Creates a new recipe. Returns the new recipe's ID.

@@ -21,6 +21,7 @@ class Recipes extends CI_Controller {
   public function index()
   {
     $data['recipes'] = $this->recipes_model->get_recipes();
+    $data['recipe_tags'] = $this->recipes_model->get_recipe_tags($data['recipes']);
     $this->load->view('recipes', $data);
   }
 /*
@@ -237,13 +238,32 @@ class Recipes extends CI_Controller {
 /*
 * http://base_url/recipes/search
 * Search recipes.
-* POST a string here to get a list of recipes that cotnain that string in ingredients or in recipe name.
+* GET string here to get a list of recipes that cotnain that string in ingredients or in recipe name.
 */
   public function search()
   {
     $tring = $this->input->get('string');
 
     echo $tring;
+  }
+/*
+* http://base_url/recipes/tag/$recipe_id
+* add tag to recipe
+* POST here to add $tag_name to $recipe_id
+* creates new tag if $tag_name doesn't exist
+*/
+  public function tag()
+  {
+
+  }
+/*
+* http://base_url/recipes/untag/$recipe_id
+* remove tag from recipe
+* POST here to remove $tag_name from $recipe_id
+*/
+  public function untag()
+  {
+
   }
 
 /*
