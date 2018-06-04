@@ -169,7 +169,7 @@ class Recipes extends CI_Controller {
       if ($this->owner_logged_in($recipe_id))
       {
         //delete recipe step
-        $this->recipes_model->delete_step($deleted_step_id);
+        $this->recipes_model->delete_recipe_step($deleted_step_id);
         //redirect to edit recipe
         redirect("recipes/edit/$recipe_id");
       }
@@ -250,15 +250,42 @@ class Recipes extends CI_Controller {
 
     //load recipe editor
       $this->load->view('edit_import', $data);
-    //redirect("recipes/edit_import/$recipe_id");
     }
     else
     {
-      redirect("recipes"); //else redirect to view all recipes
+    //  redirect("recipes"); //else redirect to view all recipes
     }
   }
 
+  public function save_import($recipe_id)
+  {
+    $units = $this->input->post('units');
+    $ingredients = $this->input->post('ingredients');
+    $qty = $this->input->post('quantity');
+    $steps = $this->input->post('steps');
 
+    $recipe_ingredients = array();
+    for ($i = 0; $i < sizeof($ingredients); $i++)
+    {
+      $recipe_ingredients[$i] = array(
+        'quantity' => $qty[$i],
+        'unit' => $units[$i],
+        'ingredient' => $ingredients[$i]
+      );
+    }
+
+    foreach($recipe_ingredients as $rI)
+    {
+      $this->recipes_model->add_ingredient_to_recipe($recipe_id, $rI['ingredient'], $rI['quantity'], $rI['unit']);
+    }
+
+    foreach($steps as $step)
+    {
+      $this->recipes_model->add_recipe_step($recipe_id, $step);
+    }
+
+    redirect("recipes/edit/$recipe_id");
+  }
 /*
 * http://base_url/recipes/search
 * Search recipes.
@@ -269,7 +296,7 @@ class Recipes extends CI_Controller {
     $data['recipes'] = $this->recipes_model->search_recipes();
     $data['recipe_tags'] = $this->recipes_model->get_recipe_tags($data['recipes']);
 
-	$this->load->view('search', $data);
+    $this->load->view('search', $data);
   }
 /*
 * http://base_url/recipes/tag/$recipe_id

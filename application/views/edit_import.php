@@ -24,16 +24,16 @@ allow user to create more recipe_ingredients in the recipe
   </thead>
   <tbody id="ingredients">
   <?php
-    echo form_open("recipes/edit/$recipe_id", 'class="mb-0"');
+    echo form_open("recipes/save_import/$recipe_id", 'class="mb-0"');
     $ingredientCounter = 0;
     foreach($imported_ingredients as $ingredient)
     {
       echo  '<tr id = "'.$ingredientCounter.'">'.
               '<td class="align-middle text-right">'.
-                '<input type="number" min="0" step="0.01" name="quantity'.$ingredientCounter.'" class="form-control" placeholder="Amount" id="quantityInput">'.
+                '<input type="number" min="0" step="0.01" name="quantity[]" class="form-control" placeholder="Amount" required>'.
               '</td>'.
               '<td class="align-middle">'.
-                '<select name="units'.$ingredientCounter.'" class="form-control" value="" id="unitInput">';
+                '<select name="units[]" class="form-control">';
       foreach($units as $unit)
       {
         echo '<option>'.$unit->unit_name.'</option>';
@@ -41,7 +41,7 @@ allow user to create more recipe_ingredients in the recipe
       echo      '</select>'.
               '</td>'.
               '<td class="align-middle">'.
-                form_input("ingredient$ingredientCounter", "$ingredient", 'class="form-control"');
+                form_input("ingredients[]", "$ingredient", 'class="form-control"');
               '</td>'.
             '</tr>';
       $ingredientCounter += 1;
@@ -73,14 +73,12 @@ allow user to create more steps in the recipe
               $stepCounter.
             '</td>'.
             '<td>'.
-              '<textarea name="step_method'.$stepCounter.'" class="form-control" placeholder="Add step method here..." id="stepMethodInput" rows="3" value="">'.trim($step).'</textarea>'.
+              '<textarea name="steps[]" class="form-control" placeholder="Add step method here..." rows="3">'.trim($step).'</textarea>'.
             '</td>'.
           '</tr>';
     $stepCounter += 1;
   }
-
  ?>
-
  </tbody>
 </table>
 

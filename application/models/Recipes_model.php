@@ -417,10 +417,20 @@ class Recipes_model extends CI_Model {
 
 	} // Function
 
-	public function get_recipe_id($recipe_name){
-			// Select IDs where recipe, or ingredient names match string.
+  public function set_recipe_ingredients($recipe_id, $ingredients)
+  {
+
+  }
+
+  public function set_recipe_steps($recipe_id, $steps)
+  {
+
+  }
+
+	public function get_recipe_id($recipe_name)
+  {
+		// Select IDs where recipe, or ingredient names match string.
 		$this->db->select('recipe.id')->from('recipe');
-		//$this->db->where('recipe.name LIKE "%'.$str.'%" OR ingredient.name LIKE "%'.$str.'%"');
 		$this->db->where('name = "'.$recipe_name.'"');
 		$query = $this->db->get();
 
