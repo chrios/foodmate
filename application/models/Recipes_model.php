@@ -22,13 +22,11 @@ class Recipes_model extends CI_Model {
 
   public function get_recipe_tags($recipes)
   {
-    echo '<pre>';
     foreach ($recipes as $recipe)
     {
-      print_r($recipe['id']);
+      //print_r($recipe['id']);
     }
 
-    echo '</pre>';
 
   }
   /*    create()    */
@@ -308,24 +306,24 @@ class Recipes_model extends CI_Model {
       $this->db->where('id', $recipe_id);
       $this->db->update('recipe', $data);
     }
-	
+
 /*
 *	Searches via POST string, returns recipes.
 */
 	 public function search_recipes()
   {
-	// Search String from User. 
+	// Search String from User.
 	$str = $this->input->get('string');
-	
+
 	//explode into array of Substrings
 	$explode = explode(" ", $str);
-	
+
 	//build WHERE condition
 	//Resulting string is something like -> (recipe.name LIKE "%example%" AND recipe.name LIKE "%string%" OR ingredient.name LIKE "%example%'.. etc)
 	//Recipe Name Half of WHERE clause
 	$whereString = '(';
 	$i = 1;
-	
+
 	foreach ($explode as $e){
 		$whereString = $whereString.'recipe.name LIKE "%'.$e.'%"';
 		// If not at the last element, add an AND clause
@@ -335,11 +333,11 @@ class Recipes_model extends CI_Model {
 		}
 	}
 	$whereString = $whereString.')';
-	
+
 	//Ingredient Name half of WHERE clause
 	$whereString = $whereString.' OR (ingredient.name LIKE ';
 	$i = 1;
-	
+
 	foreach ($explode as $e){
 		$whereString = $whereString.'"%'.$e.'%"';
 		// If not at the last element, add an AND clause
@@ -350,9 +348,9 @@ class Recipes_model extends CI_Model {
 	}
 	$u_id = $this->ion_auth->user()->row()->id;
 	$whereString = $whereString.') AND (recipe.user_id = "'.$u_id.'" OR recipe.global_flag = "1")';
-	
-	
-	// Select IDs where recipe, or ingredient names match string. 
+
+
+	// Select IDs where recipe, or ingredient names match string.
 	$this->db->distinct();
 	$this->db->select('recipe.id, recipe.name, recipe.user_id, recipe.global_flag')->from('recipe');
 	$this->db->join('recipe_ingredient', 'recipe.id = recipe_ingredient.recipe_id');
@@ -361,11 +359,11 @@ class Recipes_model extends CI_Model {
 	$this->db->where($whereString);
 	$this->db->order_by('recipe.name', 'ASC');
 	$query = $this->db->get();
-	
-	// Returns resulting array	
+
+	// Returns resulting array
     return $query->result_array();
   }
-  
+
   public function scrape($url) {
 	// Takes and Input URL from Taste, Returns an Array of Arrays with Title, ingredients, and Method.
 	// Keys are 'title', 'ingredients', 'method'.
@@ -420,15 +418,14 @@ class Recipes_model extends CI_Model {
 	} // Function
 
 	public function get_recipe_id($recipe_name){
-			// Select IDs where recipe, or ingredient names match string. 
+			// Select IDs where recipe, or ingredient names match string.
 		$this->db->select('recipe.id')->from('recipe');
 		//$this->db->where('recipe.name LIKE "%'.$str.'%" OR ingredient.name LIKE "%'.$str.'%"');
 		$this->db->where('name = "'.$recipe_name.'"');
 		$query = $this->db->get();
-		
-		// Returns resulting array	
+
+		// Returns resulting array
 		return $query->result_array();
   }
-	
-}
 
+}

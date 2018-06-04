@@ -233,33 +233,32 @@ class Recipes extends CI_Controller {
   public function import()
   {
     $url = $this->input->post('url');
-	$data['recipes'] = $this->recipes_model->scrape($url);
+    $data['recipes'] = $this->recipes_model->scrape($url);
     $recipe_name = $data['recipes']['title'];
+
     if ($recipe_name !== NULL)    //if $_POST is set
     {
-		$recipe_id = $this->recipes_model->create_recipe($recipe_name)->id; //create entry in recipe table
-		
-		// Get Data to Pass
-	    $data['recipe_ingredients'] = $this->recipes_model->get_recipe_ingredients($recipe_id);
-        $data['imported_ingredients'] = $data['recipes']['ingredients'];
-		$data['steps'] = $this->recipes_model->get_recipe_steps($recipe_id);
-		$data['imported_steps'] = $data['recipes']['method'];
-        $data['recipe_id'] = $recipe_id;
-        $data['units'] = $this->recipes_model->get_units();
-        $data['ingredients'] = $this->recipes_model->get_ingredients();
-        $data['recipe_name'] = $this->recipes_model->get_recipe_name($recipe_id)->recipe_name;
-       
-	//load recipe editor
+      $recipe_id = $this->recipes_model->create_recipe($recipe_name)->id; //create entry in recipe table
+
+    // Get Data to Pass
+      $data['imported_ingredients'] = $data['recipes']['ingredients'];
+      $data['imported_steps'] = $data['recipes']['method'];
+      $data['recipe_id'] = $recipe_id;
+      $data['units'] = $this->recipes_model->get_units();
+      $data['ingredients'] = $this->recipes_model->get_ingredients();
+      $data['recipe_name'] = $recipe_name;
+
+    //load recipe editor
       $this->load->view('edit_import', $data);
-	  //redirect("recipes/edit_import/$recipe_id");
+    //redirect("recipes/edit_import/$recipe_id");
     }
     else
     {
       redirect("recipes"); //else redirect to view all recipes
     }
   }
-  
- 
+
+
 /*
 * http://base_url/recipes/search
 * Search recipes.
@@ -269,7 +268,7 @@ class Recipes extends CI_Controller {
   {
     $data['recipes'] = $this->recipes_model->search_recipes();
     $data['recipe_tags'] = $this->recipes_model->get_recipe_tags($data['recipes']);
-	
+
 	$this->load->view('search', $data);
   }
 /*

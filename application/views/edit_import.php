@@ -20,125 +20,35 @@ allow user to create more recipe_ingredients in the recipe
       <th scope="column" style="width: 12%" class="text-center"></th>
       <th scope="column" style="width: 20%">Quantity</th>
       <th scope="column">Ingredient</th>
-      <th class="text-right" style="width: 16.66%" scope="column">Action</th>
     </tr>
   </thead>
   <tbody id="ingredients">
-<?php
-	foreach($imported_ingredients as $i){
-		// Explode into QTY | Text
-		$explode = explode(" ", $i, 2);
-		echo '<p> '.$explode[0].' | '.$explode[1].'</p>';
-	}
-	echo '<h2> Steps: </h2>';
-	foreach($imported_steps as $i){
-		echo '<p> '.$i.'</p>';
-	}
-	
-	// Throw it into prefill forms.
-	// Create a way to save lots of ingredients at once..?
-  foreach($recipe_ingredients as $ingredient)
-  {
-    $ingredient_quantity = $ingredient->quantity + 0;
-    echo  '<tr>'.
-            '<td class="align-middle text-right">'.
-              $ingredient_quantity.
-            '</td>'.
-            '<td class="align-middle">'.
-              $ingredient->unit_name.
-            '</td>'.
-            '<td class="align-middle">'.
-              $ingredient->name.
-            '</td>'.
-            '<td class="text-right">'.
-              form_open("recipes/edit/$recipe_id", 'class="mb-0"').
-              '<input type="hidden" name="deleted_ingredient" value="'.$ingredient->recipe_ingredient_id.'">'.
-              '<button class="btn btn-danger btn-sm">'.
-                '<span class="oi oi-trash" title="Delete" aria-hidden="true"></span> Delete'.
-              '</button>'.
-              form_close().
-            '</td>'.
-          '</tr>';
-  }
- ?>
-
-
-   <?php echo form_open("recipes/edit/$recipe_id"); ?>
-   <tr id="addIngredientRow" style="display: none;">
-    <td><input type="number" min="0" step="0.01" name="quantity" class="form-control" placeholder="Amount" id="quantityInput"></td>
-    <td>
-      <select name="units" class="form-control" value="" id="unitInput">
-        <?php foreach($units as $unit)
-        {
-          echo '<option>'.$unit->unit_name.'</option>';
-        } ?>
-    </td>
-    <td><input type="text" name="ingredient" class="form-control" placeholder="Ingredient" id="ingredientInput" list="ingredients">
-    <datalist id="ingredients">
-      <?php
-        foreach($ingredients as $ingredient)
-        {
-          echo '<option value="'.$ingredient->name.'">';
-        }
-       ?>
-     </datalist>
-    </td>
-    <td class="text-right">
-        <button class="btn btn-success btn-sm"><span class="oi oi-task" title="Delete" aria-hidden="true"></span> Save</button>
-        <a class="btn btn-warning btn-sm ml-1" style="color:white" id="cancelIngredient"><span class="oi oi-x" title="Delete" aria-hidden="true"></span> Cancel</a>
-      <?php echo form_close(); ?>
-    </td>
-  </tr>
+  <?php
+    echo form_open("recipes/edit/$recipe_id", 'class="mb-0"');
+    $ingredientCounter = 0;
+    foreach($imported_ingredients as $ingredient)
+    {
+      echo  '<tr id = "'.$ingredientCounter.'">'.
+              '<td class="align-middle text-right">'.
+                '<input type="number" min="0" step="0.01" name="quantity'.$ingredientCounter.'" class="form-control" placeholder="Amount" id="quantityInput">'.
+              '</td>'.
+              '<td class="align-middle">'.
+                '<select name="units'.$ingredientCounter.'" class="form-control" value="" id="unitInput">';
+      foreach($units as $unit)
+      {
+        echo '<option>'.$unit->unit_name.'</option>';
+      }
+      echo      '</select>'.
+              '</td>'.
+              '<td class="align-middle">'.
+                form_input("ingredient$ingredientCounter", "$ingredient", 'class="form-control"');
+              '</td>'.
+            '</tr>';
+      $ingredientCounter += 1;
+    }
+   ?>
  </tbody>
 </table>
-
-<button class="btn btn-block btn-success" id="addIngredientButton">
-  Add ingredient
-</button>
-
-<?php
-/*
-* Generate a 1-dimensional array for the ingredients for the autocomplete in the forms
-*/
-//$ingredientArray = array();
-//foreach($ingredients as $ingredient)
-//{
-//  $ingredientArray[] = $ingredient->ingredient_name;
-//}
-?>
-
-<script>
-//$(function() {
-  /*
-  * Put the PHP array into JSON format for the javascript array
-
-    */
-
-  //var ingredients = <?php //echo json_encode($ingredientArray); ?>;
-  //set autocomplete on the ingredientInput field
-//  $("#ingredientInput").autocomplete({
-//    source: ingredients
-//  });
-//});
-/*
-* dynamic ingredient form
-*/
-$("#cancelIngredient").on("click", function(){
-  //clear value in input fields
-  $("#ingredientInput").val('');
-  $("#unitInput").val('');
-  $("#quantityInput").val('');
-	$("#addIngredientRow").toggle();
-  $("#addIngredientButton").toggle();
-});
-
-$("#addIngredientButton").on("click", function(){
-	$("#addIngredientRow").toggle();
-  $("#addIngredientButton").toggle();
-});
-
-</script>
-
 
 <!-- iterate through each step
 create text input
@@ -151,76 +61,35 @@ allow user to create more steps in the recipe
     <tr>
       <th scope="column" style="width: 6%">Step</th>
       <th scope="column">Method</th>
-      <th class="text-right" scope="column" style="width: 16.66%">Action</th>
     </tr>
   </thead>
   <tbody id="steps">
 <?php
-  foreach($steps as $step)
+  $stepCounter = 1;
+  foreach($imported_steps as $step)
   {
     echo  '<tr>'.
-            '<td class="align-middle">'.
-              $step->step_number.
+            '<td>'.
+              $stepCounter.
             '</td>'.
-            '<td class="align-middle">'.
-              $step->step_text.
-            '</td>'.
-            '<td class="text-right">'.
-              form_open("recipes/edit/$recipe_id", 'class="mb-0"').
-              '<input type="hidden" name="deleted_step" value="'.$step->step_id.'">'.
-              '<button class="btn btn-danger btn-sm ">'.
-                '<span class="oi oi-trash" title="Delete" aria-hidden="true"></span> Delete'.
-              '</button>'.
-              form_close().
+            '<td>'.
+              '<textarea name="step_method'.$stepCounter.'" class="form-control" placeholder="Add step method here..." id="stepMethodInput" rows="3" value="">'.trim($step).'</textarea>'.
             '</td>'.
           '</tr>';
-    $max_step = $step->step_number;
+    $stepCounter += 1;
   }
+
  ?>
 
-   <?php echo form_open("recipes/edit/$recipe_id"); ?>
-   <tr id="addStepRow" style="display: none;">
-    <td><?php
-    if (isset($max_step))
-    {
-      echo $max_step+1;
-    }
-    else
-    {
-      echo 1;
-    }
-    ?></td>
-    <td><textarea name="step_method" class="form-control" placeholder="Add step method here..." id="stepMethodInput" rows="3"></textarea></td>
-    <td class="text-right">
-        <button class="btn btn-success btn-sm"><span class="oi oi-task" title="Delete" aria-hidden="true"></span> Save</button>
-        <a class="btn btn-warning btn-sm" style="color:white" id="cancelStep"><span class="oi oi-x" title="Delete" aria-hidden="true"></span> Cancel</a>
-      <?php echo form_close(); ?>
-    </td>
-  </tr>
  </tbody>
 </table>
 
-<button class="btn btn-block btn-success" id="addStepButton">
-  Add step
+<button class="btn btn-block btn-success" id="saveRecipe">
+  Save Recipe
 </button>
 
-<script>
-/*
-* dynamic step form
-*/
-$("#cancelStep").on("click", function(){
-  //clear value in input fields
-  $("#stepMethodInput").val('');
-  //toggle UI elements
-	$("#addStepRow").toggle();
-  $("#addStepButton").toggle();
-});
-$("#addStepButton").on("click", function(){
-  //toggle UI elements
-	$("#addStepRow").toggle();
-  $("#addStepButton").toggle();
-});
-</script>
+
+<?php echo form_close(); ?>
 
 <!-- post all data to /recipes/edit/$recipe_id -->
 
