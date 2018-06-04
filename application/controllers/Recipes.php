@@ -17,6 +17,7 @@ class Recipes extends CI_Controller {
 /*
 * http://base_url/recipes
 * Shows list of user recipes with edit button and create new recipe button.
+* Author: Christopher Frew
 */
   public function index()
   {
@@ -28,6 +29,7 @@ class Recipes extends CI_Controller {
 * http://base_url/recipes/create/
 * Create recipe.
 * POST to here to create a recipe.
+* Author: Christopher Frew
 */
   public function create()
   {
@@ -46,6 +48,7 @@ class Recipes extends CI_Controller {
 /*
 * http://base_url/recipes/share/$recipe_id
 * POST here to share a recipe.
+* Author: Christopher Frew
 *
 */
   public function share($recipe_id)
@@ -73,6 +76,7 @@ class Recipes extends CI_Controller {
 /*
 * http://base_url/recipes/view/$recipe_id
 * View recipe. Takes one argument, recipe.id
+* Author: Christopher Frew
 *
 */
   public function view($recipe_id)
@@ -96,6 +100,7 @@ class Recipes extends CI_Controller {
 * http://base_url/recipes/edit/$recipe_id
 * Edit recipe. Takes one argument, recipe.id
 * POST to here to edit a recipe
+* Author: Christopher Frew
 */
   public function edit($recipe_id = NULL)
   {
@@ -199,6 +204,7 @@ class Recipes extends CI_Controller {
 * http://base_url/recipes/delete/
 * Delete recipe. Takes one argument, recipe.id
 * POST to here to delete a recipe.
+* Author: Christopher Frew
 */
   public function delete($recipe_id = NULL)
   {
@@ -229,6 +235,7 @@ class Recipes extends CI_Controller {
 * http://base_url/recipes/import
 * Import recipe.
 * POST a URL here to attempt an import.
+* Author: Shannan Mikic and Christopher Frew
 */
   public function import()
   {
@@ -256,6 +263,12 @@ class Recipes extends CI_Controller {
     //  redirect("recipes"); //else redirect to view all recipes
     }
   }
+/*
+* http://base_url/recipes/save_import/$recipe_id
+* Save an imported recipe.
+* POST here to bulk add ingredients and steps to a recipe
+* Author: Christopher Frew
+*/
 
   public function save_import($recipe_id)
   {
@@ -263,33 +276,53 @@ class Recipes extends CI_Controller {
     $ingredients = $this->input->post('ingredients');
     $qty = $this->input->post('quantity');
     $steps = $this->input->post('steps');
-
-    $recipe_ingredients = array();
-    for ($i = 0; $i < sizeof($ingredients); $i++)
+    //check $_POST is set correctly
+    if ($units !== NULL && $ingredients !== NULL && $qty !== NULL && $steps !== NULL)
     {
-      $recipe_ingredients[$i] = array(
-        'quantity' => $qty[$i],
-        'unit' => $units[$i],
-        'ingredient' => $ingredients[$i]
-      );
-    }
+      //check if recipe belongs to current user
+      if ($this->owner_logged_in($recipe_id))
+      {
+        //translate POST arrays to multidimensional array
+        $recipe_ingredients = array();
+        for ($i = 0; $i < sizeof($ingredients); $i++)
+        {
+          $recipe_ingredients[$i] = array(
+            'quantity' => $qty[$i],
+            'unit' => $units[$i],
+            'ingredient' => $ingredients[$i]
+          );
+        }
 
-    foreach($recipe_ingredients as $rI)
+        //add each ingredient to the recipe
+        foreach($recipe_ingredients as $rI)
+        {
+          $this->recipes_model->add_ingredient_to_recipe($recipe_id, $rI['ingredient'], $rI['quantity'], $rI['unit']);
+        }
+
+        //add each step to the recipe
+        foreach($steps as $step)
+        {
+          $this->recipes_model->add_recipe_step($recipe_id, $step);
+        }
+
+        //go to recipe editor page
+        redirect("recipes/edit/$recipe_id");
+    }
+    else // recipe does not belong to owner, redirect to recipes page
     {
-      $this->recipes_model->add_ingredient_to_recipe($recipe_id, $rI['ingredient'], $rI['quantity'], $rI['unit']);
+      redirect("recipes");
     }
-
-    foreach($steps as $step)
-    {
-      $this->recipes_model->add_recipe_step($recipe_id, $step);
-    }
-
+  }
+  else // POST not set correctly, redirect to editor page
+  {
     redirect("recipes/edit/$recipe_id");
   }
+}
 /*
 * http://base_url/recipes/search
 * Search recipes.
 * GET string here to get a list of recipes that cotnain that string in ingredients or in recipe name.
+* Author: Shannan Mikic
 */
   public function search()
   {
@@ -303,6 +336,7 @@ class Recipes extends CI_Controller {
 * add tag to recipe
 * POST here to add $tag_name to $recipe_id
 * creates new tag if $tag_name doesn't exist
+* Author: Christopher Frew
 */
   public function tag()
   {
@@ -312,6 +346,7 @@ class Recipes extends CI_Controller {
 * http://base_url/recipes/untag/$recipe_id
 * remove tag from recipe
 * POST here to remove $tag_name from $recipe_id
+* Author: Christopher Frew
 */
   public function untag()
   {
@@ -323,6 +358,7 @@ class Recipes extends CI_Controller {
 */
 /*
 * Check if $recipe_id belongs to current logged in user
+* Author: Christopher Frew
 */
   private function owner_logged_in($recipe_id)
   {

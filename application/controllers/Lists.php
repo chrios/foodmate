@@ -16,6 +16,7 @@ class Lists extends CI_Controller {
 /*
 * http://base_url/lists
 * Shows table of user lists with edit button and create new recipe button.
+* Author: Christopher Frew
 */
   public function index()
   {
@@ -32,6 +33,7 @@ class Lists extends CI_Controller {
 * http://base_url/lists/create/
 * Create list.
 * POST to here to create a list.
+* Author: Christopher Frew
 */
   public function create()
   {
@@ -52,6 +54,7 @@ class Lists extends CI_Controller {
 /*
 * http://base_url/lists/view/$list.id
 * View list. Takes one argument, list.id
+* Author: Christopher Frew
 *
 */
   public function view($list_id)
@@ -102,6 +105,7 @@ class Lists extends CI_Controller {
 * http://base_url/lists/edit/$list_id
 * Edit recipe. Takes one argument, recipe.id
 * POST to here to edit a recipe
+* Author: Christopher Frew
 */
   public function edit($list_id = NULL)
   {
@@ -161,6 +165,7 @@ class Lists extends CI_Controller {
 * http://base_url/lists/delete/$list_id
 * Delete list. Takes one argument, list.id
 * POST to here to delete a recipe from a list
+* Author: Christopher Frew
 */
   public function delete($list_id)
   {
@@ -189,6 +194,7 @@ class Lists extends CI_Controller {
 */
 /*
 * Check if $list_id belongs to current logged in user
+* Author: Christopher Frew
 */
   private function owner_logged_in($list_id)
   {

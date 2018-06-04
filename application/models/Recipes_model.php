@@ -8,6 +8,7 @@ class Recipes_model extends CI_Model {
   }
 /*
 * Returns the recipes of the user currently logged in and global recipes.
+* Author: Christopher Frew
 */
   public function get_recipes()
   {
@@ -26,12 +27,11 @@ class Recipes_model extends CI_Model {
     {
       //print_r($recipe['id']);
     }
-
-
   }
   /*    create()    */
 /*
 * Creates a new recipe. Returns the new recipe's ID.
+* Author: Christopher Frew
 */
   public function create_recipe($recipe_name)
   {
@@ -52,6 +52,7 @@ class Recipes_model extends CI_Model {
   /*    edit()    */
 /*
 * Returns recipe ingredients in an array. Takes recipe_id as argument.
+* Author: Christopher Frew
 */
   public function get_recipe_ingredients($recipe_id)
   {
@@ -75,6 +76,7 @@ class Recipes_model extends CI_Model {
   }
 /*
 * Returns recipe steps in an array
+* Author: Christopher Frew
 */
   public function get_recipe_steps($recipe_id)
   {
@@ -88,7 +90,8 @@ class Recipes_model extends CI_Model {
     return $query->result();
   }
 /*
-* Returns all units in unit
+* Returns all units
+* Author: Christopher Frew
 */
   public function get_units()
   {
@@ -97,6 +100,7 @@ class Recipes_model extends CI_Model {
   }
 /*
 * Returns all ingredients in ingredient
+* Author: Christopher Frew
 */
   public function get_ingredients()
   {
@@ -105,6 +109,7 @@ class Recipes_model extends CI_Model {
   }
 /*
 * Returns recipe.name from recipe.id
+* Author: Christopher Frew
 */
   public function get_recipe_name($recipe_id)
   {
@@ -113,6 +118,7 @@ class Recipes_model extends CI_Model {
   }
 /*
 * adds ingredient to recipe
+* Author: Christopher Frew
 */
   public function add_ingredient_to_recipe($recipe_id, $ingredient, $quantity, $units)
   {
@@ -142,6 +148,7 @@ class Recipes_model extends CI_Model {
   }
 /*
 * creates new ingredient in database and returns new id
+* Author: Christopher Frew
 */
   public function add_ingredient($name)
   {
@@ -155,6 +162,7 @@ class Recipes_model extends CI_Model {
   }
 /*
 * gets unit id from name
+* Author: Christopher Frew
 */
   public function get_unit_id($unit_name)
   {
@@ -163,6 +171,7 @@ class Recipes_model extends CI_Model {
   }
 /*
 * gets ingredient id from name
+* Author: Christopher Frew
 */
   public function get_ingredient_id($name)
   {
@@ -171,6 +180,7 @@ class Recipes_model extends CI_Model {
   }
 /*
 * Deletes an ingredient from a recipe. Takes recipe_ingredit.id as argument.
+* Author: Christopher Frew
 */
   public function delete_recipe_ingredient($recipe_ingredient_id)
   {
@@ -178,6 +188,7 @@ class Recipes_model extends CI_Model {
   }
 /*
 * Adds a step to a recipe. Takes recipe_id and step.step_text as argument
+* Author: Christopher Frew
 */
   public function add_recipe_step($recipe_id, $step_text)
   {
@@ -198,6 +209,7 @@ class Recipes_model extends CI_Model {
   }
 /*
 * Deletes a step from the database. Takes step_id as argument
+* Author: Christopher Frew
 */
   public function delete_recipe_step($step_id)
   {
@@ -205,6 +217,7 @@ class Recipes_model extends CI_Model {
   }
 /*
 * Iterates through steps for a recipe and fixes the step_number to be order. Takes step.recipe_id as argument.
+* Author: Christopher Frew
 */
   public function reorder_step($recipe_id)
   {
@@ -228,10 +241,10 @@ class Recipes_model extends CI_Model {
       $count += 1; // increment count by 1
     }
   }
-
   /*    delete()    */
 /*
 * Returns the user.id of a recipe.id
+* Author: Christopher Frew
 */
   public function check_recipe_owner($recipe_id)
   {
@@ -243,6 +256,7 @@ class Recipes_model extends CI_Model {
 * Deletes a recipe by recipe.id
 * Deletes all steps associated with that recipe
 * Deletes all recipe_ingredient rows associated with that recipe
+* Author: Christopher Frew
 */
   public function delete_recipe($recipe_id)
   {
@@ -252,6 +266,7 @@ class Recipes_model extends CI_Model {
   }
 /*
 * Returns the recipe.id of recipes for the current user.
+* Author: Christopher Frew
 */
   public function get_user_recipe_ids()
   {
@@ -266,6 +281,7 @@ class Recipes_model extends CI_Model {
   }
 /*
 * returns true if recipe is global or false if not global
+* Author: Christopher Frew
 */
   public function check_recipe_global($recipe_id)
   {
@@ -282,10 +298,10 @@ class Recipes_model extends CI_Model {
       return FALSE;
     }
   }
-
   /*    share()    */
 /*
 * shares a recipe (makes global)
+* Author: Christopher Frew
 */
   public function share_recipe($recipe_id)
   {
@@ -297,6 +313,7 @@ class Recipes_model extends CI_Model {
   }
 /*
 * unshares a recipe
+* Author: Christopher Frew
 */
     public function unshare_recipe($recipe_id)
     {
@@ -306,127 +323,124 @@ class Recipes_model extends CI_Model {
       $this->db->where('id', $recipe_id);
       $this->db->update('recipe', $data);
     }
-
 /*
 *	Searches via POST string, returns recipes.
+* Author: Shannan Mikic
 */
-	 public function search_recipes()
+  public function search_recipes()
   {
-	// Search String from User.
-	$str = $this->input->get('string');
+    // Search String from User.
+    $str = $this->input->get('string');
 
-	//explode into array of Substrings
-	$explode = explode(" ", $str);
+    //explode into array of Substrings
+    $explode = explode(" ", $str);
 
-	//build WHERE condition
-	//Resulting string is something like -> (recipe.name LIKE "%example%" AND recipe.name LIKE "%string%" OR ingredient.name LIKE "%example%'.. etc)
-	//Recipe Name Half of WHERE clause
-	$whereString = '(';
-	$i = 1;
+    //build WHERE condition
+    //Resulting string is something like -> (recipe.name LIKE "%example%" AND recipe.name LIKE "%string%" OR ingredient.name LIKE "%example%'.. etc)
+    //Recipe Name Half of WHERE clause
+    $whereString = '(';
+    $i = 1;
 
-	foreach ($explode as $e){
-		$whereString = $whereString.'recipe.name LIKE "%'.$e.'%"';
-		// If not at the last element, add an AND clause
-		if ($i < sizeof($explode)){
-			$whereString = $whereString.' AND ';
-			$i++;
-		}
-	}
-	$whereString = $whereString.')';
+    foreach ($explode as $e){
+    	$whereString = $whereString.'recipe.name LIKE "%'.$e.'%"';
+    	// If not at the last element, add an AND clause
+    	if ($i < sizeof($explode)){
+    		$whereString = $whereString.' AND ';
+    		$i++;
+    	}
+    }
+    $whereString = $whereString.')';
 
-	//Ingredient Name half of WHERE clause
-	$whereString = $whereString.' OR (ingredient.name LIKE ';
-	$i = 1;
+    //Ingredient Name half of WHERE clause
+    $whereString = $whereString.' OR (ingredient.name LIKE ';
+    $i = 1;
 
-	foreach ($explode as $e){
-		$whereString = $whereString.'"%'.$e.'%"';
-		// If not at the last element, add an AND clause
-		if ($i < sizeof($explode)){
-			$whereString = $whereString.' AND ';
-			$i++;
-		}
-	}
-	$u_id = $this->ion_auth->user()->row()->id;
-	$whereString = $whereString.') AND (recipe.user_id = "'.$u_id.'" OR recipe.global_flag = "1")';
+    foreach ($explode as $e){
+    	$whereString = $whereString.'"%'.$e.'%"';
+    	// If not at the last element, add an AND clause
+    	if ($i < sizeof($explode)){
+    		$whereString = $whereString.' AND ';
+    		$i++;
+    	}
+    }
+    $u_id = $this->ion_auth->user()->row()->id;
+    $whereString = $whereString.') AND (recipe.user_id = "'.$u_id.'" OR recipe.global_flag = "1")';
 
 
-	// Select IDs where recipe, or ingredient names match string.
-	$this->db->distinct();
-	$this->db->select('recipe.id, recipe.name, recipe.user_id, recipe.global_flag')->from('recipe');
-	$this->db->join('recipe_ingredient', 'recipe.id = recipe_ingredient.recipe_id');
-	$this->db->join('ingredient', 'recipe_ingredient.id = ingredient.id');
-	//$this->db->where('recipe.name LIKE "%'.$str.'%" OR ingredient.name LIKE "%'.$str.'%"');
-	$this->db->where($whereString);
-	$this->db->order_by('recipe.name', 'ASC');
-	$query = $this->db->get();
+    // Select IDs where recipe, or ingredient names match string.
+    $this->db->distinct();
+    $this->db->select('recipe.id, recipe.name, recipe.user_id, recipe.global_flag')->from('recipe');
+    $this->db->join('recipe_ingredient', 'recipe.id = recipe_ingredient.recipe_id');
+    $this->db->join('ingredient', 'recipe_ingredient.id = ingredient.id');
+    //$this->db->where('recipe.name LIKE "%'.$str.'%" OR ingredient.name LIKE "%'.$str.'%"');
+    $this->db->where($whereString);
+    $this->db->order_by('recipe.name', 'ASC');
+    $query = $this->db->get();
 
-	// Returns resulting array
+    // Returns resulting array
     return $query->result_array();
   }
+/*
+*	Scrapes a taste.com.au URL for a recipe and returns array with ingredients and steps
+* Author: Shannan Mikic
+*/
+  public function scrape($url)
+  {
+  	// Takes and Input URL from Taste, Returns an Array of Arrays with Title, ingredients, and Method.
+  	// Keys are 'title', 'ingredients', 'method'.
+  	$html = file_get_contents($url);
+  	$doc = new DOMDocument();
 
-  public function scrape($url) {
-	// Takes and Input URL from Taste, Returns an Array of Arrays with Title, ingredients, and Method.
-	// Keys are 'title', 'ingredients', 'method'.
-	$html = file_get_contents($url);
-	$doc = new DOMDocument();
+  	libxml_use_internal_errors(TRUE);
 
-	libxml_use_internal_errors(TRUE);
+  	if(!empty($html)) { //IF any HTML is returned
+  		//echo 'Successfully got HTML from: '.$url.' </br>';
 
-	if(!empty($html)) { //IF any HTML is returned
-		//echo 'Successfully got HTML from: '.$url.' </br>';
+  		$doc -> loadHTML($html);
+  		libxml_clear_errors();
+  		$xpath = new DOMXPath($doc);
 
-		$doc -> loadHTML($html);
-		libxml_clear_errors();
-		$xpath = new DOMXPath($doc);
+  		$titleq = $xpath->query('//h1');
+  		$title;
 
-		$titleq = $xpath->query('//h1');
-		$title;
+  		if ($titleq->length >0) {
+  			foreach($titleq as $row){
+  				$title = $row->nodeValue;
+  			}
+  		}
 
-		if ($titleq->length >0) {
-			foreach($titleq as $row){
-				$title = $row->nodeValue;
-			}
-		}
+  		$ingredients = $xpath->query('//div[@class="ingredient-description"]');
+  		$ingArray = [];
+  		$i = 0;
 
-		$ingredients = $xpath->query('//div[@class="ingredient-description"]');
-		$ingArray = [];
-		$i = 0;
+  		if ($ingredients->length >0) {
 
-		if ($ingredients->length >0) {
+  			foreach($ingredients as $row){
+  				$ingArray[$i] = $row->nodeValue;
+  				$i++;
+  			}
+  		}
 
-			foreach($ingredients as $row){
-				$ingArray[$i] = $row->nodeValue;
-				$i++;
-			}
-		}
+  		$method = $xpath->query('//div[@class="recipe-method-step-content"]');
+  		$methArray = [];
+  		$i = 1;
 
-		$method = $xpath->query('//div[@class="recipe-method-step-content"]');
-		$methArray = [];
-		$i = 1;
+  		if ($method -> length > 0) {
+  			foreach($method as $r) {
+  				$methArray[$i] = $r->nodeValue;
+  				$i++;
+  			}
+  		}
 
-		if ($method -> length > 0) {
-			foreach($method as $r) {
-				$methArray[$i] = $r->nodeValue;
-				$i++;
-			}
-		}
-
-	}
+  	}
 		$recipe = array("title"=>$title, "ingredients"=>$ingArray, "method"=>$methArray);
 		return $recipe;
 
-	} // Function
-
-  public function set_recipe_ingredients($recipe_id, $ingredients)
-  {
-
-  }
-
-  public function set_recipe_steps($recipe_id, $steps)
-  {
-
-  }
-
+	}
+/*
+*	Returns a recipe.id from the recipe name
+* Author: Shannan Mikic
+*/
 	public function get_recipe_id($recipe_name)
   {
 		// Select IDs where recipe, or ingredient names match string.

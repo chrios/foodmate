@@ -6,13 +6,6 @@ $this->load->view('template/header', $data);
 
 <h1 class="mt-5">Editing Imported <?php echo $recipe_name ?></h1>
 
-<!-- iterate through each recipe_ingredient
-create multiselect input preloaded with recipe_ingredient
-associate multiselect input with step_id
-allow user to add ingredients
-allow user to add units
-allow user to create more recipe_ingredients in the recipe
--->
 <h2 class="mt-4">Ingredients</h2>
 <table class="table mt-4 table-sm" id="ingredientTable">
   <thead>
@@ -50,11 +43,6 @@ allow user to create more recipe_ingredients in the recipe
  </tbody>
 </table>
 
-<!-- iterate through each step
-create text input
-associate text input with step_id
-allow user to create more steps in the recipe
--->
 <h2 class="mt-4">Steps</h2>
 <table class="table table-sm mt-4">
   <thead>
@@ -86,22 +74,6 @@ allow user to create more steps in the recipe
   Save Recipe
 </button>
 
-
 <?php echo form_close(); ?>
-
-<!-- post all data to /recipes/edit/$recipe_id -->
-
-<pre>
-  <?php
-/*
-    print_r($recipe_id);
-    print_r($steps);
-    print_r($recipe_ingredients);
-    print_r($units);
-    print_r($ingredients);
-    print_r($recipe_name);
-*/
-  ?>
-</pre>
 
 <?php $this->load->view('template/footer'); ?>
