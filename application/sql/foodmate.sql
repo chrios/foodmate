@@ -1,4 +1,3 @@
-USE ci;
   -- --------------------------
   -- Ion Auth table structure
   --
