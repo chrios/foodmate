@@ -20,15 +20,6 @@ class Recipes_model extends CI_Model {
     //Return array of results from query
     return $query->result_array();
   }
-
-  public function get_recipe_tags($recipes)
-  {
-    foreach ($recipes as $recipe)
-    {
-      //print_r($recipe['id']);
-    }
-  }
-  /*    create()    */
 /*
 * Creates a new recipe. Returns the new recipe's ID.
 * Author: Christopher Frew
@@ -49,7 +40,6 @@ class Recipes_model extends CI_Model {
     //Return new recipe ID)
     return $query->row();
   }
-  /*    edit()    */
 /*
 * Returns recipe ingredients in an array. Takes recipe_id as argument.
 * Author: Christopher Frew
@@ -241,7 +231,6 @@ class Recipes_model extends CI_Model {
       $count += 1; // increment count by 1
     }
   }
-  /*    delete()    */
 /*
 * Returns the user.id of a recipe.id
 * Author: Christopher Frew
@@ -298,7 +287,6 @@ class Recipes_model extends CI_Model {
       return FALSE;
     }
   }
-  /*    share()    */
 /*
 * shares a recipe (makes global)
 * Author: Christopher Frew
@@ -451,5 +439,15 @@ class Recipes_model extends CI_Model {
 		// Returns resulting array
 		return $query->result_array();
   }
-
+/*
+*	Returns all tags for an array of recipe_id
+* Author: Christopher Frew
+*/
+  public function get_recipe_tags($recipes)
+  {
+    foreach ($recipes as $recipe)
+    {
+      //print_r($recipe['id']);
+    }
+  }
 }

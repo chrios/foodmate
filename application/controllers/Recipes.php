@@ -13,7 +13,6 @@ class Recipes extends CI_Controller {
       redirect('auth/login');
     }
   }
-
 /*
 * http://base_url/recipes
 * Shows list of user recipes with edit button and create new recipe button.
