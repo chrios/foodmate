@@ -56,5 +56,3 @@ Foodmate is tested with nginx and there is a sample configuration file in the ba
 ## TODO
 
 - Recipe tag support
-  - Global recipes listed in home page
-- Taste.com import
