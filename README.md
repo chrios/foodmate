@@ -29,6 +29,9 @@ Foodmate is tested with [nginx](https://www.nginx.com) and php-fpm.
     # Modify foodmate.conf as required
     sudo nano /etc/nginx/sites-available/foodmate.conf
     
+    # Set permissions on the repo folder
+    sudo chown -R www-data:www-data /var/www/foodmate/*
+    
     # Test nginx
     sudo nginx -t
 
