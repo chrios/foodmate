@@ -8,12 +8,40 @@ Foodmate is written in PHP using the CodeIgniter framework. It has been designed
 
 ## Setup
 
+### Ubuntu 18.04
+
+    # Install the required programs
+    sudo apt install nginx php-fpm mysql-server php-mysql
+
+    # Clone the git repo
+    cd /var/www/
+    sudo git clone https://github.com/chrios/foodmate.git
+
+### Nginx
+
+Foodmate is tested with [nginx](https://www.nginx.com) and php-fpm.
+
+    # Configure and test nginx
+    sudo rm /etc/nginx/sites-enabled/default
+    sudo cp /var/www/foodmate/foodmate.conf /etc/nginx/sites-available
+    sudo ln -s /etc/nginx/sites-available/foodmate.conf /etc/nginx/sites-enabled/foodmate.conf
+    
+    # Modify foodmate.conf as required
+    sudo nano /etc/nginx/sites-available/foodmate.conf
+    
+    # Test nginx
+    sudo nginx -t
+
 ### Database
 
 Database schema scripts are provided for Mysql in the application/sql directory. For MySQL,
+- Start MySQL
+  ```
+  sudo service mysql start
+  ```
 - Log into MySQL as root
   ```
-  mysql -uroot -p
+  sudo mysql -uroot -p
   ```
 - Create a foodmate database and user
   ```
@@ -22,16 +50,18 @@ Database schema scripts are provided for Mysql in the application/sql directory.
   ```
 - Log out of MySQL and use the SQL schema script to create the database
   ```
-  mysql -u username -p ca <foodmate.sql
+  exit
+  sudo mysql -u username -p ci < /var/www/foodmate/application/sql/foodmate.sql
   ```
 
-You need to load some configuration varialbes into the $db['default'] array in the CodeIgniter database configuration file at application/config/database.php:
+### Application Configuration
+
+You need to load some configuration variables into the $db['default'] array in the CodeIgniter database configuration file at application/config/database.php:
 - hostname
 - username
 - password
 - database
 
-### Application Configuration
 
 Modify the application/config/config.php file, at minimum, setting the following:
 ```
