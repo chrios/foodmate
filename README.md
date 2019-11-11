@@ -49,12 +49,12 @@ Database schema scripts are provided for Mysql in the application/sql directory.
 - Create a foodmate database and user
   ```
   CREATE DATABASE ci;
-  GRANT ALL PRIVILEGES ON ci.* TO 'username'@'localhost' IDENTIFIED BY 'password';
+  GRANT ALL PRIVILEGES ON ci.* TO 'ciadmin'@'localhost' IDENTIFIED BY 'cipassword';
   ```
 - Log out of MySQL and use the SQL schema script to create the database
   ```
   exit
-  sudo mysql -u username -p ci < /var/www/foodmate/application/sql/foodmate.sql
+  sudo mysql -u ciadmin -p ci < /var/www/foodmate/application/sql/foodmate.sql
   ```
 
 ### Application Configuration
