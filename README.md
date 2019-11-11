@@ -54,7 +54,7 @@ Database schema scripts are provided for Mysql in the application/sql directory.
 - Log out of MySQL and use the SQL schema script to create the database
   ```
   exit
-  sudo mysql -u ciadmin -p ci < /var/www/foodmate/application/sql/foodmate.sql
+  mysql -u ciadmin -p ci < /var/www/foodmate/application/sql/foodmate.sql
   ```
 
 ### Application Configuration
