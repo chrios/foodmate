@@ -79,6 +79,13 @@ $config['site_title']
 $config['admin_email']
 ```
 
+### Setup
+
+Browse to your site. You will be presented with a login screen. The default credentials are
+
+username: admin 
+password: admin
+
 ## Deployment
 
 Foodmate is tested with nginx and there is a sample configuration file in the base directory, foodmate.conf.
