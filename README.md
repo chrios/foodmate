@@ -88,7 +88,7 @@ Browse to your site. You will be presented with a login screen. The default cred
 
 username: admin@admin.com
 
-password: admin
+password: foodmate
 
 ## Deployment
 
