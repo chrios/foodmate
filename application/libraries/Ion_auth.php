@@ -430,10 +430,7 @@ class Ion_auth
 		}
 		else
 		{
-			if (version_compare(PHP_VERSION, '7.0.0') >= 0)
-			{
-				session_start();
-			}
+			session_start();
 			$this->session->sess_regenerate(TRUE);
 		}
 
@@ -525,7 +522,7 @@ class Ion_auth
 		}
 		foreach ($check_group as $key => $value)
 		{
-			$groups = (is_string($value)) ? $groups_array : array_keys($groups_array);
+			$groups = (is_numeric($value)) ? array_keys($groups_array) : $groups_array;
 
 			/**
 			 * if !all (default), in_array
