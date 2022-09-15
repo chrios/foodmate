@@ -6,11 +6,11 @@ You can use Foodmate to export shopping lists from your selected recipes to prin
 
 Foodmate is written in PHP using the CodeIgniter framework. It has been designed with Nginx+PHP-FPM and MariaDB in mind, but other databases/webservers should work due to CodeIgniter's database agnostic helper functions.
 
-<img src=https://raw.githubusercontent.com/chrios/foodmate/master/screenshots/login-page.PNG width=300>
+<img src=https://raw.githubusercontent.com/chrios/foodmate/master/docs/screenshots/login-page.PNG width=300>
 
 ## Setup
 
-### Ubuntu 18.04
+### Linux
 
 Install the required programs
 
@@ -100,11 +100,11 @@ Foodmate is tested with nginx and there is a sample configuration file in the ba
 
 ## Screenshots
 
-<img src=https://raw.githubusercontent.com/chrios/foodmate/master/screenshots/recipes.PNG width=300>
-<img src=https://raw.githubusercontent.com/chrios/foodmate/master/screenshots/users.PNG width=300>
-<img src=https://raw.githubusercontent.com/chrios/foodmate/master/screenshots/lists.PNG width=300>
-<img src=https://raw.githubusercontent.com/chrios/foodmate/master/screenshots/creating-recipe.PNG width=300>
-<img src=https://raw.githubusercontent.com/chrios/foodmate/master/screenshots/lists.PNG width=300>
+<img src=https://raw.githubusercontent.com/chrios/foodmate/master/docs/screenshots/recipes.PNG width=300>
+<img src=https://raw.githubusercontent.com/chrios/foodmate/master/docs/screenshots/users.PNG width=300>
+<img src=https://raw.githubusercontent.com/chrios/foodmate/master/docs/screenshots/lists.PNG width=300>
+<img src=https://raw.githubusercontent.com/chrios/foodmate/master/docs/screenshots/creating-recipe.PNG width=300>
+<img src=https://raw.githubusercontent.com/chrios/foodmate/master/docs/screenshots/lists.PNG width=300>
 
 ## TODO
 
